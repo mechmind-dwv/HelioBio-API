@@ -42,7 +42,7 @@ pkg update && pkg upgrade
 pkg install python git curl
 
 # Clonar el repositorio
-git clone https://github.com/tuusuario/HelioBio-API.git
+git clone https://github.com/mechmind-dwv/HelioBio-API.git
 cd HelioBio-API
 
 # Instalar dependencias
