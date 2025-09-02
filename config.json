@@ -1,0 +1,28 @@
+{
+  "database": {
+    "path": "heliobio_data.db",
+    "backup_interval_hours": 24
+  },
+  "solar_data": {
+    "update_interval_minutes": 60,
+    "sources": {
+      "sunspots": "http://www.sidc.be/silso/DATA/SN_m_tot_V2.0.csv",
+      "flare_index": "https://services.swpc.noaa.gov/json/goes/primary/xrays-7-day.json",
+      "geomagnetic": "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
+    }
+  },
+  "analysis": {
+    "correlation_threshold": 0.6,
+    "prediction_horizon_months": 24,
+    "alert_levels": {
+      "high": 80,
+      "medium": 50,
+      "low": 20
+    }
+  },
+  "api": {
+    "host": "0.0.0.0",
+    "port": 8000,
+    "debug": true
+  }
+}
