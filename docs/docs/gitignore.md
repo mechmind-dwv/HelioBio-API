@@ -68,5 +68,4 @@ Este `.gitignore` está diseñado para mantener el repositorio ordenado y seguro
   * **Archivos generados por Python (`__pycache__`, `venv/`)**: Incluye archivos de *bytecode* compilados y los directorios de entornos virtuales. Estos archivos son específicos de cada entorno local y no deben compartirse.
   * **Archivos de caché y datos temporales (`data/cache/`)**: El `data_fetcher` del sistema de Chizhevsky crea una caché para almacenar los datos de las API. Este directorio se ignora para evitar que los datos masivos se suban al repositorio, lo que aumentaría su tamaño innecesariamente.
   * **Archivos del sistema (`.DS_Store`)**: Archivos ocultos generados por sistemas operativos como macOS que no tienen relevancia para el proyecto.
-
 Al utilizar este archivo, garantizamos que nuestro repositorio refleje con precisión el trabajo de **Chizhevsky**: un código limpio, claro y listo para ser compartido y utilizado por la comunidad científica global, sin comprometer la seguridad ni la eficiencia.
