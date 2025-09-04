@@ -1,0 +1,105 @@
+# Nombre del pipeline
+name: CI/CD Pipeline
+
+# Eventos que disparan el pipeline.
+# Se ejecutará en cada 'push' a la rama 'main'
+# y en cada 'pull_request' a la rama 'main'.
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Los "trabajos" (jobs) que se ejecutan en el pipeline
+jobs:
+  # --- Trabajo de Construcción (Build) ---
+  build:
+    # El entorno donde se ejecutará este trabajo
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: "Checkout" del código.
+      # Esto clona tu repositorio para que el pipeline pueda acceder a los archivos.
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      # Paso 2: Configurar el entorno de Node.js
+      # Puedes cambiar esto por Python, Java, u otro lenguaje según tu proyecto.
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Paso 3: Instalar las dependencias
+      - name: Instalar dependencias
+        run: npm install
+
+      # Paso 4: Construir la aplicación
+      - name: Construir la aplicación
+        run: npm run build
+
+      # Paso 5: Guardar los archivos de construcción para los siguientes trabajos
+      - name: Subir artefactos de la construcción
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifact
+          path: build/ # Cambia 'build/' por la ruta de tu carpeta de construcción
+
+  # --- Trabajo de Pruebas (Test) ---
+  test:
+    # Este trabajo solo se ejecuta después de que el trabajo 'build' termine exitosamente
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: "Checkout" del código para las pruebas
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      # Paso 2: Descargar los artefactos de la construcción
+      - name: Descargar artefactos de la construcción
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: .
+
+      # Paso 3: Configurar el entorno de Node.js
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      # Paso 4: Ejecutar las pruebas
+      - name: Ejecutar pruebas
+        run: npm test
+
+  # --- Trabajo de Despliegue (Deploy) ---
+  deploy:
+    # Este trabajo solo se ejecuta si el trabajo 'test' termina exitosamente
+    needs: test
+    
+    # Este trabajo solo se ejecuta si se hizo un 'push' a la rama 'main'
+    if: github.ref == 'refs/heads/main'
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Descargar los artefactos de la construcción
+      - name: Descargar artefactos de la construcción
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact
+          path: .
+
+      # Paso 2: Simular el despliegue
+      # Aquí es donde pondrías los comandos para desplegar tu aplicación.
+      # Por ejemplo, subir los archivos a un servidor, usar un servicio como Vercel, Netlify,
+      # Firebase, o un comando para un servicio de nube como AWS, GCP, Azure, etc.
+      - name: Despliegue a producción
+        run: echo "Despliegue exitoso. La aplicación está lista."
+        # Ejemplo para un despliegue real:
+        # - uses: vercel/actions/deploy@v2
+        #   with:
+        #     vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        #     vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        #     vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
