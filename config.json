@@ -1,28 +1,38 @@
 {
-  "database": {
-    "path": "heliobio_data.db",
-    "backup_interval_hours": 24
-  },
-  "solar_data": {
-    "update_interval_minutes": 60,
-    "sources": {
-      "sunspots": "http://www.sidc.be/silso/DATA/SN_m_tot_V2.0.csv",
-      "flare_index": "https://services.swpc.noaa.gov/json/goes/primary/xrays-7-day.json",
-      "geomagnetic": "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
+  "api_settings": {
+    "title": "HelioBio-API",
+    "version": "0.1.0",
+    "description": "API para el análisis y predicción de correlaciones heliobiológicas.",
+    "contact": {
+      "name": "Mechmind-dwv",
+      "email": "ia.mechmind@gmail.com"
+    },
+    "license_info": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "analysis": {
-    "correlation_threshold": 0.6,
-    "prediction_horizon_months": 24,
-    "alert_levels": {
-      "high": 80,
-      "medium": 50,
-      "low": 20
-    }
+  "data_fetcher": {
+    "cache_duration_hours": 12,
+    "silso_sunspot_url": "https://www.sidc.be/silso/DATA/SN_m_tot_V2.0.txt",
+    "noaa_solar_url": "https://services.swpc.noaa.gov/json/solar-cycle/observed-solar-cycle-indices.json",
+    "noaa_geomag_url": "https://services.swpc.noaa.gov/json/planetary_k_index_7day.json",
+    "noaa_space_weather_url": "https://services.swpc.noaa.gov/products/alerts.json"
   },
-  "api": {
-    "host": "0.0.0.0",
-    "port": 8000,
-    "debug": true
+  "analyzer_params": {
+    "correlation_method": "cross_correlation",
+    "max_lag_days": 365,
+    "significance_level": 0.05,
+    "resample_frequency": "M"
+  },
+  "predictor_params": {
+    "model_type": "RandomForestRegressor",
+    "train_split_ratio": 0.8
+  },
+  "alert_system": {
+    "enabled": true,
+    "min_ssn_threshold_alert": 150,
+    "min_kp_threshold_alert": 6,
+    "notification_channels": ["email", "webhook"]
   }
 }
