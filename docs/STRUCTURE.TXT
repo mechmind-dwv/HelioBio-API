@@ -1,0 +1,81 @@
+
+## Estructura Modular del Proyecto
+
+```
+HelioBio-API/
+├── README.md
+├── requirements.txt
+├── setup.py
+├── config.json
+├── .env.example
+├── .gitignore
+├── docker-compose.yml
+├── Dockerfile
+├── docs/
+│   ├── API_Documentation.md
+│   ├── Scientific_Background.md
+│   └── Installation_Guide.md
+├── app/
+│   ├── __init__.py
+│   ├── main.py                 # FastAPI application entry point
+│   ├── config/
+│   │   ├── __init__.py
+│   │   ├── settings.py         # Configuration management
+│   │   └── database.py         # Database configuration
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── solar.py           # Solar activity data models
+│   │   ├── biological.py      # Biological/epidemiological models
+│   │   ├── analysis.py        # Analysis result models
+│   │   └── alerts.py          # Alert system models
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── chizhevsky_kb.py   # Chizhevsky knowledge base
+│   │   ├── data_fetcher.py    # External data acquisition
+│   │   ├── analyzer.py        # Advanced statistical analysis
+│   │   ├── predictor.py       # Prediction engine
+│   │   └── alert_system.py    # Alert generation system
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── endpoints/
+│   │   │   ├── __init__.py
+│   │   │   ├── solar.py       # Solar data endpoints
+│   │   │   ├── biological.py  # Biological data endpoints
+│   │   │   ├── analysis.py    # Analysis endpoints
+│   │   │   ├── predictions.py # Prediction endpoints
+│   │   │   └── alerts.py      # Alert endpoints
+│   │   └── dependencies.py    # FastAPI dependencies
+│   ├── database/
+│   │   ├── __init__.py
+│   │   ├── connection.py      # Database connection management
+│   │   ├── migrations/        # Database migrations
+│   │   └── repositories/      # Data access layer
+│   │       ├── __init__.py
+│   │       ├── solar_repo.py
+│   │       ├── biological_repo.py
+│   │       └── analysis_repo.py
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── solar_service.py   # Solar data business logic
+│   │   ├── analysis_service.py # Analysis business logic
+│   │   └── notification_service.py # Notifications
+│   └── utils/
+│       ├── __init__.py
+│       ├── visualizations.py  # Chart generation
+│       ├── statistics.py      # Statistical utilities
+│       └── helpers.py         # General utilities
+├── tests/
+│   ├── __init__.py
+│   ├── test_api/
+│   ├── test_core/
+│   └── test_utils/
+├── scripts/
+│   ├── setup.sh              # Installation script
+│   ├── start_server.sh       # Server startup script
+│   ├── update_data.py        # Data update script
+│   └── backup_db.py          # Database backup script
+└── data/
+    ├── cache/                # Cached data
+    ├── exports/              # Data exports
+    └── logs/                 # Application logs
+```
