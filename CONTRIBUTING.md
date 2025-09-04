@@ -1,0 +1,52 @@
+Guía de Contribución: Construyendo la HelioBio-API
+Bienvenido. Este proyecto no es solo un conjunto de algoritmos y puntos de datos; es una herramienta para conectar el cosmos con la biosfera, una visión inspirada por el espíritu indomable de Alexander Chizhevsky. Al igual que él desafió el dogma de su tiempo para revelar las verdades que unen al sol con la humanidad, te invitamos a unirte a nosotros para construir algo que trasciende lo convencional.
+Nuestra misión es simple pero audaz: usar la tecnología para manifestar las ideas de la Heliobiología, la Cosmobiología y la Historiometría. Queremos que el código que escribas no solo funcione, sino que resuene con el propósito de revelar los patrones ocultos que gobiernan la vida en la Tierra.
+Principios Fundamentales de la Contribución
+Antes de escribir una sola línea de código, te pedimos que adoptes nuestra filosofía. Como Da Vinci y Copérnico, quienes persistieron a pesar de la "mano invisible" del dogma, buscamos colaboradores que valoren la verdad sobre la conveniencia.
+Sé un Polímata Digital: No te limites a tu especialidad. Fomenta la curiosidad. Pregunta cómo un cambio en el backend puede afectar la visualización de un gráfico o cómo una nueva teoría biológica podría integrarse en la arquitectura de la API.
+Busca la Conexión Oculta: Nuestro trabajo no es solo procesar datos, es encontrar la sintaxis oculta entre ellos. Si encuentras una forma de conectar dos conjuntos de datos aparentemente dispares, esa es una contribución invaluable.
+La Humildad es la Piedra Angular: Reconoce que nuestra visión es ambiciosa y que habrá errores en el camino. No te aferres a tu código; aférrate a la misión. El verdadero progreso se construye corrigiendo y aprendiendo de los errores.
+Cómo empezar tu viaje
+El camino hacia la interconexión cósmica comienza con pasos prácticos.
+1. Requisitos de Instalación
+Asegúrate de tener instalados los siguientes componentes en tu máquina local:
+Git: Para gestionar el control de versiones.
+Node.js & npm: Nuestro entorno de desarrollo se basa en Node.js para la API y sus dependencias.
+2. Clonar el Repositorio
+Abre tu terminal y clona el repositorio del proyecto:
+git clone [https://github.com/HelioBio-API/HelioBio-API.git](https://github.com/HelioBio-API/HelioBio-API.git)
+
+
+Navega al directorio del proyecto e instala las dependencias:
+cd HelioBio-API
+npm install
+
+
+3. Configuración del Entorno
+Crea un archivo .env en la raíz del proyecto para gestionar las variables de entorno. Necesitarás configurar el acceso a la base de datos y otras claves API. Consulta el archivo env.example en el repositorio para ver los campos requeridos.
+El Proceso de Contribución
+Tu código es tu códice. Presenta tus ideas con claridad y precisión para que la comunidad pueda entender tu visión.
+Crea una Rama de Trabajo:
+Comienza cada nueva contribución en una rama separada para mantener el historial limpio. Utiliza un nombre descriptivo:
+git checkout -b feature/nombre-de-tu-caracteristica
+
+O si es una corrección de un error:
+git checkout -b fix/descripcion-del-error
+
+
+Escribe Tu Código y Comentarios:
+Desarrolla tu solución. Asegúrate de que tu código esté bien documentado. Cada función, cada clase, es un "jeroglífico" que debe ser legible para los demás. Explica el "porqué" de tus decisiones de diseño.
+Realiza un Commit de tus Cambios:
+Agrega tus archivos y crea un commit con un mensaje claro y conciso. Piensa en el mensaje como un titular para tu "códice".
+git add .
+git commit -m "feat: añadir endpoint para datos de actividad solar"
+
+
+Envía tu "Códice" (Pull Request):
+Sube tu rama al repositorio remoto y abre un Pull Request. Describe tu contribución en detalle. ¿Qué problema resuelve? ¿Qué nueva conexión de datos revela? ¿Cómo honra la visión de Chizhevsky?
+Más Allá del Código
+Tu contribución no se limita a escribir código. Puedes ayudar a construir el futuro de la Heliobiología de otras maneras.
+Documentación: Mejora nuestros manuales, crea tutoriales y explica conceptos complejos de forma simple.
+Investigación: Identifica nuevos conjuntos de datos sobre ciclos biológicos o eventos históricos que podamos integrar en la API.
+Discusión de Ideas: Participa activamente en el rastreador de problemas y las discusiones de la comunidad. Tus preguntas y perspectivas son vitales para la evolución del proyecto.
+Tu esfuerzo es crucial para construir esta API. El verdadero poder no reside en las líneas de código, sino en la conexión invisible que creamos juntos. Bienvenido a bordo.
