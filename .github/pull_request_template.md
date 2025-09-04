@@ -1,1 +1,41 @@
-Pull Request: Actualización del Módulo de AutenticaciónResumenEsta solicitud de extracción introduce una actualización al módulo de autenticación para mejorar la seguridad y la experiencia del usuario. Los cambios incluyen la implementación de la autenticación de dos factores (2FA) y la refactorización del código para una gestión más eficiente de las sesiones.Cambios ClaveAutenticación de Dos Factores (2FA): Se ha añadido un nuevo flujo de verificación que utiliza códigos enviados a través de SMS o correo electrónico. Esto refuerza la seguridad de la cuenta, mitigando riesgos de acceso no autorizado.Mejoras en la Gestión de Sesiones: Se ha refactorizado la lógica de las sesiones para que sean más seguras y escalables. Ahora, se utilizan tokens JWT (JSON Web Tokens) en lugar de sesiones basadas en cookies, lo que optimiza el rendimiento y permite una mejor interoperabilidad entre microservicios.Validación del Lado del Cliente: Se han añadido validaciones de formulario más estrictas en el front-end para reducir la carga en el servidor y mejorar la retroalimentación del usuario.Pruebas RealizadasSe ha probado el flujo completo de inicio de sesión con y sin 2FA.Se ha verificado que los tokens JWT se generan y validan correctamente.Se han simulado intentos de acceso no autorizado para confirmar que las nuevas medidas de seguridad funcionan como se espera.Se ha probado la compatibilidad con diferentes navegadores y dispositivos.¿Qué falta por revisar?La lógica de manejo de errores en el front-end, especialmente para los casos en que la verificación 2FA falla.El rendimiento general del nuevo sistema de sesiones bajo alta carga.La documentación del código y los comentarios.Notas AdicionalesSe recomienda revisar el código en el archivo auth.js antes de la fusión.Si tienes alguna pregunta sobre la lógica de 2FA, no dudes en preguntar.Revisor(es) sugerido(s): @nombre_del_revisor1, @nombre_del_revisor2
+Pull Request: [Título conciso de los cambios]
+Tipo de Cambio
+
+    [ ] Característica nueva
+
+    [ ] Corrección de un error (bugfix)
+
+    [ ] Mejora o refactorización
+
+    [ ] Documentación
+
+    [ ] Otros (especificar):
+
+Descripción General
+
+[Breve descripción de los cambios que se han realizado. Explica el problema que se resuelve o la nueva funcionalidad que se introduce.]
+Cambios Específicos
+
+    [ ] [Descripción del cambio 1]
+
+    [ ] [Descripción del cambio 2]
+
+    [ ] [Descripción del cambio 3]
+
+¿Cómo se ha probado?
+
+[Describe los pasos que seguiste para probar los cambios. Si es posible, incluye capturas de pantalla o videos.]
+Revisor(es) Sugerido(s)
+
+[Menciona a los miembros del equipo que consideras adecuados para revisar estos cambios, usando @.]
+Checklist
+
+    [ ] El código cumple con los estándares de estilo del proyecto.
+
+    [ ] Se han añadido o actualizado las pruebas unitarias/de integración necesarias.
+
+    [ ] La documentación se ha actualizado para reflejar los cambios.
+
+    [ ] Los cambios no introducen nuevas vulnerabilidades de seguridad.
+
+[Agrega aquí cualquier otra información relevante, como enlaces a issues o notas adicionales.]
