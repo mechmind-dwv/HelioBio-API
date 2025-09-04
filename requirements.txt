@@ -1,11 +1,24 @@
-fastapi==0.104.1
-uvicorn==0.24.0
-requests==2.31.0
-pandas==2.1.3
-matplotlib==3.8.2
-numpy==1.24.3
-scipy==1.11.4
-statsmodels==0.14.0
-aiohttp==3.9.1
-python-multipart==0.0.6
-pydantic==2.5.0
+# Módulo 1: Web Framework & Entorno
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+pydantic==2.7.1
+python-dotenv==1.0.1
+
+# Módulo 2: Adquisición de Datos
+aiohttp==3.9.5
+
+# Módulo 3: Análisis Científico & Procesamiento de Datos
+pandas==2.2.2
+numpy==1.26.4
+scipy==1.13.0
+scikit-learn==1.4.2
+
+# Módulo 4: Base de Datos & ORM
+sqlalchemy==2.0.29
+psycopg2-binary==2.9.9
+alembic==1.13.1
+
+# Herramientas de Desarrollo (Opcional, para pruebas y formateo)
+pytest==8.2.0
+black==24.4.2
+flake8==7.0.0
