@@ -1,0 +1,56 @@
+# Códice Digital: Dependabot Alexander L. Chizhevsky
+
+# Este archivo configura la sincronización del proyecto con los ciclos de actividad solar
+# de sus dependencias, asegurando que nuestra infraestructura digital se mantenga en
+# armonía con las corrientes cósmicas del desarrollo de software.
+
+version: 2
+updates:
+  # Monitorear la "Heliobiología" de las dependencias de Node.js
+  # En el ecosistema de npm, cada paquete es una entidad biológica.
+  # Las actualizaciones son su crecimiento y evolución. Las vulnerabilidades son
+  # sus "ciclos de epidemia" que debemos prevenir.
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      # Agrupar las actualizaciones para gestionar el flujo de trabajo sin causar una "tormenta de datos".
+      # Las dependencias de desarrollo se actualizan en un solo "pulso cósmico".
+      dev-dependencies:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "express"
+          - "react"
+          - "@types/*"
+      # Las dependencias de producción se revisan individualmente.
+      # Esta es nuestra "historiometría" en acción, un análisis meticuloso para no
+      # introducir eventos disruptivos en nuestro "continuo espacio-tiempo".
+      production-dependencies:
+        patterns:
+          - "express"
+          - "react"
+          - "@types/*"
+    commit-message:
+      prefix: "historia"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "-"
+    # Limitar el número de pull requests abiertas para evitar la "fatiga de revisión" y
+    # mantener una visión clara, al igual que Da Vinci mantenía sus estudios organizados.
+    open-pull-requests-limit: 5
+
+  # Vigilar la "Geofísica Digital" de nuestras GitHub Actions
+  # Las acciones de GitHub son las "placas tectónicas" de nuestro workflow.
+  # Un cambio en ellas puede causar un "sismo" en la producción.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    commit-message:
+      prefix: "geofisica"
+      include: "scope"
+    # Las acciones de GitHub deben ser revisadas de forma más lenta y deliberada.
+    # No es un pulso semanal, sino un ciclo lunar de estabilidad.
+    target-branch: "main"
