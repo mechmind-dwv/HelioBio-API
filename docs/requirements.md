@@ -40,28 +40,91 @@ Para construir y ejecutar el sistema de análisis heliobiológico, se requieren 
 ### Archivo `requirements.txt` Completo
 
 ```
-# Módulo 1: Web Framework & Entorno
-fastapi==0.111.0
-uvicorn[standard]==0.29.0
-pydantic==2.7.1
-python-dotenv==1.0.1
+# =================================================================
+# HelioBio-API v3.0.0 - Dependencias de Python
+# Sistema de análisis heliobiológico basado en Alexander Chizhevsky
+# Autor: mechmind-dwv (ia.mechmind@gmail.com)
+# =================================================================
 
-# Módulo 2: Adquisición de Datos
-aiohttp==3.9.5
+# ============== Framework Web ==============
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+pydantic==2.5.0
+pydantic-settings==2.1.0
+python-multipart==0.0.6
 
-# Módulo 3: Análisis Científico & Procesamiento de Datos
-pandas==2.2.2
-numpy==1.26.4
-scipy==1.13.0
-scikit-learn==1.4.2
+# ============== HTTP & Async ==============
+aiohttp==3.9.1
+aiofiles==23.2.1
+requests==2.31.0
+httpx==0.25.2
 
-# Módulo 4: Base de Datos & ORM
-sqlalchemy==2.0.29
-psycopg2-binary==2.9.9
-alembic==1.13.1
+# ============== Procesamiento de Datos ==============
+pandas==2.1.3
+numpy==1.24.3
+scipy==1.11.4
 
-# Herramientas de Desarrollo (Opcional, para pruebas y formateo)
-pytest==8.2.0
-black==24.4.2
-flake8==7.0.0
+# ============== Análisis Estadístico ==============
+statsmodels==0.14.0
+scikit-learn==1.3.2
+
+# ============== Series Temporales ==============
+pmdarima==2.0.4  # Auto ARIMA
+
+# ============== Visualización ==============
+matplotlib==3.8.2
+seaborn==0.13.0
+plotly==5.18.0
+
+# ============== Análisis Wavelet ==============
+PyWavelets==1.5.0
+
+# ============== Base de Datos ==============
+sqlalchemy==2.0.23
+alembic==1.13.0
+
+# ============== Testing ==============
+pytest==7.4.3
+pytest-asyncio==0.21.1
+pytest-cov==4.1.0
+
+# ============== Utilidades ==============
+python-dotenv==1.0.0
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# ============== Machine Learning (Opcional) ==============
+xgboost==2.0.2
+
+# ============== Logging & Monitoring ==============
+loguru==0.7.2
+
+# ============== Validación de Datos ==============
+email-validator==2.1.0
+
+# ============== Fechas y Tiempo ==============
+python-dateutil==2.8.2
+pytz==2023.3
+
+# ============== CLI ==============
+click==8.1.7
+rich==13.7.0
+
+# ============== Seguridad ==============
+cryptography==41.0.7
+
+# ============== Formatos de Datos ==============
+openpyxl==3.1.2  # Excel
+pyyaml==6.0.1     # YAML
+
+# ============== Desarrollo ==============
+black==23.12.1
+flake8==6.1.0
+mypy==1.7.1
+ipython==8.18.1
+jupyter==1.0.0
+
+# ============== Documentación ==============
+mkdocs==1.5.3
+mkdocs-material==9.5.2
 ```
