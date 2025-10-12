@@ -1,4 +1,3 @@
-### app/models/biological.py
 #!/usr/bin/env python3
 """
 Modelos para eventos biológicos y epidemiológicos
