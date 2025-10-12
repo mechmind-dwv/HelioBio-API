@@ -1,4 +1,3 @@
-### app/config/settings.py
 #!/usr/bin/env python3
 """
 Configuración central del sistema HelioBio-API
