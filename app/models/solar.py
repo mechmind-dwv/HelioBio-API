@@ -1,4 +1,3 @@
-### app/models/solar.py
 #!/usr/bin/env python3
 """
 Modelos de datos para actividad solar
