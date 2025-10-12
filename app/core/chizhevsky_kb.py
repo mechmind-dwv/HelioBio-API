@@ -1,4 +1,3 @@
-### app/core/chizhevsky_kb.py
 #!/usr/bin/env python3
 """
 Base de conocimiento científico de Alexander Leonidovich Chizhevsky
