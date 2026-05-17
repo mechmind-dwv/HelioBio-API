@@ -1,5 +1,4 @@
 ## app/core/data_fetcher.py
-```python
 #!/usr/bin/env python3
 """
 Sistema avanzado de obtención de datos de actividad solar

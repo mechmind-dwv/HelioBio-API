@@ -362,27 +362,28 @@ async def get_current_alerts():
     end_date = datetime.now().strftime("%Y-%m-%d")
     start_date = (datetime.now() - timedelta(days=365)).strftime("%Y-%m-%d")
     df = await fetch_solar_data(start_date, end_date)
-
+    
     recent = df['sunspot_number'].tail(30).mean()
     last_n = min(30, len(df))
-    trend = np.polyfit(range(last_n), df['sunspot_number'].tail(last_n).values, 1)[0] if last_n >= 2 else 0
+trend = np.polyfit(range(last_n), df['sunspot_number'].tail(last_n).values, 1)[0] if last_n >= 2 else 0
 
-    if recent > 100 and trend > 0:
-        level, msg = "Alto", "Alta actividad solar con tendencia creciente."
-        measures = ["Monitorear pacientes cardiovasculares", "Alertar sistemas de salud", "Precaución al aire libre"]
-    elif recent > 50:
-        level, msg = "Moderado", "Actividad solar moderada."
-        measures = ["Observar tendencias de salud", "Mantener monitoreo activo"]
-    else:
-        level, msg = "Bajo", "Actividad solar baja. Riesgo mínimo."
-        measures = ["Continuar monitoreo rutinario"]
-
+if recent > 100 and trend > 0:
+    level, msg = "Alto", "Alta actividad solar con tendencia creciente."
+    measures = ["Monitorear pacientes cardiovasculares", "Alertar sistemas de salud", "Precaución al aire libre"]
+elif recent > 50:
+    level, msg = "Moderado", "Actividad solar moderada."
+    measures = ["Observar tendencias de salud", "Mantener monitoreo activo"]
+else:
+    level, msg = "Bajo", "Actividad solar baja. Riesgo mínimo."
+    measures = ["Continuar monitoreo rutinario"]
+    
     return [HealthAlert(
         level=level, message=msg,
         expected_impact="Posible aumento en condiciones cardiovasculares y neurológicas",
         timeframe="Próximas 2-4 semanas",
         protective_measures=measures
     )]
+
 @app.get("/chizhevsky/knowledge")
 async def get_chizhevsky_knowledge():
     return CHIZHEVSKY_KNOWLEDGE_BASE

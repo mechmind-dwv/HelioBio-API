@@ -2,17 +2,26 @@
 """
 Configuración central del sistema HelioBio-API
 """
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from typing import List, Optional
 import os
 
+
 class Settings(BaseSettings):
+    """Configuración principal de la aplicación"""
+    
+    model_config = {
+        "extra": "ignore",
+        "env_file": ".env",
+        "env_file_encoding": "utf-8"
+    }
+    
     # Información del proyecto
     PROJECT_NAME: str = "HelioBio-API"
     PROJECT_VERSION: str = "3.0.0"
     PROJECT_DESCRIPTION: str = "Sistema Avanzado de Análisis Heliobiológico"
-    
-    # Información del autor (siguiendo las especificaciones)
+
+    # Información del autor
     AUTHOR_NAME: str = "mechmind-dwv"
     AUTHOR_EMAIL: str = "ia.mechmind@gmail.com"
     GITHUB_REPO: str = "https://github.com/mechmind-dwv/HelioBio-API"
@@ -25,7 +34,7 @@ class Settings(BaseSettings):
     
     # Base de datos
     DATABASE_URL: str = "sqlite:///./data/heliobio_database.db"
-    
+
     # URLs de fuentes de datos oficiales
     SILSO_SUNSPOT_URL: str = "https://www.sidc.be/silso/DATA/SN_m_tot_V2.0.csv"
     NOAA_SOLAR_URL: str = "https://services.swpc.noaa.gov/json/solar-cycle/observed-solar-cycle-indices.json"
@@ -40,16 +49,14 @@ class Settings(BaseSettings):
     MIN_DATA_POINTS: int = 50
     DEFAULT_FORECAST_MONTHS: int = 24
     CORRELATION_SIGNIFICANCE_LEVEL: float = 0.05
-    
+
     # Configuración de alertas
     ALERT_EXPIRY_DAYS: int = 30
     MAX_ACTIVE_ALERTS: int = 10
-    
+
     # Logging
     LOG_LEVEL: str = "INFO"
     LOG_FILE: str = "./data/logs/heliobio.log"
-    
-    class Config:
-        env_file = ".env"
+
 
 settings = Settings()
