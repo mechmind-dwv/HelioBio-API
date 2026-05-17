@@ -1,51 +1,93 @@
-# =========================================================
-# === .gitignore para el Proyecto HelioBio-API ==========
-# =========================================================
-
-# --- Archivos de Entorno y Secretos ---
-# Ignorar el archivo de configuración de entorno local para evitar exponer secretos.
-.env
-.flaskenv
-
-# --- Archivos Generados por Python ---
-# Bytecode compilado
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
-
-# Distribuciones
+*.so
+*.egg-info/
 dist/
 build/
-*.egg-info/
+*.egg
 
-# Entornos Virtuales
+# Entornos virtuales
 venv/
-.venv/
 env/
-.env/
+.venv/
+env.bak/
+venv.bak/
 
-# Archivos de Testing y Cobertura
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Base de datos
+*.db
+*.sqlite3
+*.sqlite
+
+# Datos generados
+data/cache/*
+data/logs/*
+data/exports/*
+!data/cache/.gitkeep
+!data/logs/.gitkeep
+!data/exports/.gitkeep
+
+# Backups
+backups/
+*.backup
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Matplotlib
+*.png
+*.jpg
+*.svg
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# pytest
 .pytest_cache/
 .coverage
 htmlcov/
-.nox/
+.tox/
+.mypy_cache/
 
-# --- Archivos Generados por el Sistema ---
-.DS_Store
-.vscode/
+# Tokens y credenciales
+*.token
+*_token
+*_TOKEN
+credentials.json
 
-# --- Archivos de Caché de Datos ---
-# Ignorar el directorio de caché de datos para no incluir datos de API descargados.
-# Estos datos son temporales y se regeneran.
-data/cache/
+# Archivos temporales
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
 
-# --- Base de Datos Local ---
-# Ignorar los archivos de la base de datos si se usa una base de datos local basada en archivos (ej. SQLite).
-# En nuestro caso, usamos PostgreSQL, pero es una buena práctica incluirlo.
-*.db
-*.sqlite
-*.sqlite3
-
-# --- Logging ---
-# Archivos de registro generados por la aplicación
-*.log
+# GitHub Actions (si no se usan)
+.github/workflows/*.yml
+!.github/workflows/jekyll-gh-pages.yml
