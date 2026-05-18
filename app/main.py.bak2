@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from app.solar_fetcher import fetch_real_silso_data
 from app.space_weather import fetch_real_space_weather
 from app.solar_cycles import get_solar_cycles_data
 """
@@ -25,7 +24,6 @@ from pydantic import BaseModel
 from scipy import signal, stats
 from scipy.signal import find_peaks
 
-from app.solar_fetcher import fetch_real_silso_data
 from app.space_weather import fetch_real_space_weather
 from app.solar_cycles import get_solar_cycles_data
 from app.dashboard import router as dashboard_router
@@ -242,10 +240,41 @@ def init_database():
 
 # ================== OBTENCIÓN DE DATOS ==================
 
-async def fetch_solar_data(start_date: str, end_date: str) -> pd.DataFrame:
-    """Obtiene datos SOLARES REALES del SILSO (Royal Observatory Belgium)"""
-    from app.solar_fetcher import fetch_real_silso_data
-    return await fetch_real_silso_data(start_date, end_date)
+async def fetch_solar_data_old(start_date: str, end_date: str) -> pd.DataFrame:
+    start_dt = pd.Timestamp(start_date)
+    end_dt = pd.Timestamp(end_date)
+    months = pd.date_range(start=start_dt, end=end_dt, freq="MS")
+    n = len(months)
+
+    t = np.arange(n)
+    ssn = 80 * np.sin(2 * np.pi * t / (11.2 * 12)) ** 2 + np.random.normal(0, 15, n)
+    ssn = np.clip(ssn, 0, None)
+
+    flare_index = ssn * 0.1 + np.random.normal(0, 0.5, n)
+    geomagnetic_ap = ssn * 0.5 + np.random.normal(0, 2, n)
+
+    try:
+        today = datetime.now()
+        nasa_start = (today - timedelta(days=30)).strftime("%Y-%m-%d")
+        nasa_end = today.strftime("%Y-%m-%d")
+        url = f"https://api.nasa.gov/DONKI/FLR?startDate={nasa_start}&endDate={nasa_end}&api_key=DEMO_KEY"
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as resp:
+                if resp.status == 200:
+                    flares = await resp.json()
+                    print(f"NASA DONKI: {len(flares)} flares obtenidos")
+    except Exception:
+        pass
+
+    df = pd.DataFrame({
+        "date": months,
+        "sunspot_number": ssn,
+        "flare_activity": flare_index,
+        "geomagnetic_storm": geomagnetic_ap,
+        "classification": ["moderate" if 50 <= s < 150 else "low" if s < 50 else "high" for s in ssn],
+    })
+    return df
+
 
 def get_epidemiological_data() -> pd.DataFrame:
     pandemics = [
