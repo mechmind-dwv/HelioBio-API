@@ -96,7 +96,7 @@ DASHBOARD_HTML = """
         </div>
         <div class="status">
             <span class="badge badge-online pulse">🟢 Operativa</span>
-            <span class="badge badge-version">v3.1.0</span>
+            <span class="badge badge-version">v8.0.0</span>
         </div>
     </header>
 
@@ -159,7 +159,7 @@ DASHBOARD_HTML = """
     </div>
 
     <footer>
-        <p>© 2024-2026 mechmind-dwv | HelioBio-API v3.1.0 | MIT License</p>
+        <p>© 2024-2026 | v8.0.0 "Cosmic Odyssey" mechmind-dwv | HelioBio-API v8.0.0 | MIT License</p>
         <p style="margin-top:8px;">
             <a href="https://github.com/mechmind-dwv/HelioBio-API" style="color:var(--blue);">GitHub</a> |
             <a href="mailto:ia.mechmind@gmail.com" style="color:var(--blue);">Contacto</a>
