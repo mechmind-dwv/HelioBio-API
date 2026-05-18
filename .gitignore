@@ -1,3 +1,16 @@
+# Entorno virtual
+venv/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# Variables de entorno (CONTIENE CREDENCIALES)
+.env
+.env.local
+.env.*.local
+*.env
+
 # Python
 __pycache__/
 *.py[cod]
@@ -8,17 +21,13 @@ dist/
 build/
 *.egg
 
-# Entornos virtuales
-venv/
-env/
-.venv/
-env.bak/
-venv.bak/
-
-# Archivos de entorno
-.env
-.env.local
-.env.*.local
+# Cachés
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
 
 # Base de datos
 *.db
@@ -36,6 +45,7 @@ data/exports/*
 # Backups
 backups/
 *.backup
+*.bak
 
 # Docker
 .docker/
@@ -53,41 +63,31 @@ docker-compose.override.yml
 .ipynb_checkpoints/
 *.ipynb
 
-# Matplotlib
-*.png
-*.jpg
-*.svg
-
 # Logs
 *.log
 logs/
 *.log.*
 
-# Type checking
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# pytest
-.pytest_cache/
-.coverage
-htmlcov/
-.tox/
-.mypy_cache/
-
-# Tokens y credenciales
+# Tokens y credenciales (CRÍTICO)
 *.token
 *_token
 *_TOKEN
+*token*
 credentials.json
+secrets.yml
+secrets.yaml
 
 # Archivos temporales
 tmp/
 temp/
 *.tmp
 *.temp
-*.bak
 
-# GitHub Actions (si no se usan)
-.github/workflows/*.yml
-!.github/workflows/jekyll-gh-pages.yml
+# Archivos específicos del proyecto
+solar-activity/
+requirements_txt.
+heliobio_data.db
+app/main.py.bak
+
+# GitHub Actions locales
+.github/workflows/*.local.yml
