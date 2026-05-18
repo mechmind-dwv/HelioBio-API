@@ -27,7 +27,7 @@ def generate_solar_report(solar_data: list, include_chart: bool = True) -> bytes
     # Resumen
     story.append(Paragraph("📊 Resumen", styles['Heading2']))
     if solar_data:
-        ssn_values = [d['sunspot_number'] for d in solar_data]
+        ssn_values = [d.sunspot_number for d in solar_data]
         avg_ssn = sum(ssn_values) / len(ssn_values)
         max_ssn = max(ssn_values)
         min_ssn = min(ssn_values)
@@ -58,9 +58,9 @@ def generate_solar_report(solar_data: list, include_chart: bool = True) -> bytes
         data_rows = [["Fecha", "SSN", "Clasificación"]]
         for d in solar_data[-10:]:
             data_rows.append([
-                d["date"].strftime("%Y-%m-%d")[:10],
-                f"{d['sunspot_number']:.1f}",
-                d['classification'].upper()
+                d.date.strftime("%Y-%m-%d")[:10],
+                f"{d.sunspot_number:.1f}",
+                d.classification.upper()
             ])
         
         table = Table(data_rows, colWidths=[4*cm, 3*cm, 4*cm])
