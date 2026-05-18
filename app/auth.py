@@ -4,7 +4,7 @@ import hashlib
 from datetime import datetime, timedelta
 from typing import Optional, Dict
 from jose import JWTError, jwt
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException, Depends, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 SECRET_KEY = os.getenv("JWT_SECRET", "heliobio-secret-key-change-in-production")
