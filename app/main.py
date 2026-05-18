@@ -276,7 +276,12 @@ def advanced_correlation_analysis(solar_df: pd.DataFrame, event_dates: List[date
         if idx < len(event_density):
             event_density[idx] += 1
     smoothed = np.convolve(event_density, np.ones(12) / 12, mode="same")
-    corr, pval = stats.pearsonr(solar_values, smoothed)
+    try:
+        corr, pval = stats.pearsonr(solar_values, smoothed)
+        if np.isnan(corr):
+            corr, pval = 0.0, 1.0
+    except:
+        corr, pval = 0.0, 1.0
 
     f_s, Pxx_s = signal.periodogram(solar_values, fs=1)
     f_e, Pxx_e = signal.periodogram(smoothed, fs=1)
