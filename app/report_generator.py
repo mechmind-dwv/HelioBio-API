@@ -58,9 +58,9 @@ def generate_solar_report(solar_data: list, include_chart: bool = True) -> bytes
         data_rows = [["Fecha", "SSN", "Clasificación"]]
         for d in solar_data[-10:]:
             data_rows.append([
-                d.date.strftime("%Y-%m-%d")[:10],
-                f"{d.sunspot_number:.1f}",
-                d.classification.upper()
+                d.date.strftime("%Y-%m-%d"),
+                f"{float(d.sunspot_number):.1f}",
+                str(d.classification).upper()
             ])
         
         table = Table(data_rows, colWidths=[4*cm, 3*cm, 4*cm])
