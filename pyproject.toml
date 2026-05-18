@@ -1,0 +1,32 @@
+[project]
+name = "HelioBio-API"
+version = "3.0.0"
+description = "Sistema Avanzado de Análisis Heliobiológico basado en Alexander Chizhevsky"
+authors = [{name = "mechmind-dwv", email = "ia.mechmind@gmail.com"}]
+requires-python = ">=3.10"
+
+[tool.briefcase]
+project_name = "HelioBio-API"
+bundle = "com.mechmind.heliobio"
+version = "3.0.0"
+url = "https://github.com/mechmind-dwv/HelioBio-API"
+license = "MIT"
+author = "mechmind-dwv"
+author_email = "ia.mechmind@gmail.com"
+
+[tool.briefcase.app.heliobio-api]
+formal_name = "HelioBio-API"
+description = "Análisis Heliobiológico - Chizhevsky"
+icon = "static/favicon"
+sources = ["android_app/app"]
+requires = [
+    "fastapi",
+    "uvicorn",
+    "numpy",
+    "pandas",
+    "scipy",
+    "matplotlib",
+    "scikit-learn",
+    "aiohttp",
+    "pydantic",
+]

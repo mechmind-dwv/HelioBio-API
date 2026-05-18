@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """
-HelioBio-API - Sistema avanzado de análisis heliobiológico basado en los estudios de Alexander Chizhevsky
+HelioBio-API - Sistema avanzado de análisis heliobiológico
+Basado en los estudios de Alexander Leonidovich Chizhevsky (1897-1964)
 """
-
 import warnings
-
 warnings.filterwarnings("ignore")
 
 import base64
@@ -18,9 +17,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from scipy import signal, stats
 from scipy.signal import find_peaks
+
+from app.dashboard import router as dashboard_router
 
 app = FastAPI(
     title="HelioBio-API",
@@ -29,24 +31,44 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
 )
-from fastapi.staticfiles import StaticFiles
-
-from app.dashboard import router as dashboard_router
 
 app.include_router(dashboard_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
+# ================== MODELOS DE DATOS ==================
 
-# Modelos de datos
 class SolarActivity(BaseModel):
+    """Modelo para datos de actividad solar"""
     date: datetime
     sunspot_number: float
     flare_activity: float = 0.0
     geomagnetic_storm: float = 0.0
     classification: str
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "date": "2024-03-15T00:00:00",
+                    "sunspot_number": 125.3,
+                    "flare_activity": 12.5,
+                    "geomagnetic_storm": 45.2,
+                    "classification": "high",
+                },
+                {
+                    "date": "2020-06-01T00:00:00",
+                    "sunspot_number": 8.7,
+                    "flare_activity": 0.3,
+                    "geomagnetic_storm": 5.1,
+                    "classification": "low",
+                },
+            ]
+        }
+    }
+
 
 class PandemicData(BaseModel):
+    """Modelo para eventos epidemiológicos"""
     name: str
     start_year: int
     end_year: int
@@ -55,8 +77,34 @@ class PandemicData(BaseModel):
     notes: str
     solar_correlation: Optional[float] = None
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "name": "COVID-19",
+                    "start_year": 2019,
+                    "end_year": 2023,
+                    "death_count": 7000000,
+                    "affected_regions": ["Global"],
+                    "notes": "Inicio en fase mínima del Ciclo Solar 24",
+                    "solar_correlation": 0.68,
+                },
+                {
+                    "name": "Gripe Española",
+                    "start_year": 1918,
+                    "end_year": 1920,
+                    "death_count": 50000000,
+                    "affected_regions": ["Global"],
+                    "notes": "Máximo solar del Ciclo 15",
+                    "solar_correlation": 0.94,
+                },
+            ]
+        }
+    }
+
 
 class CorrelationResult(BaseModel):
+    """Modelo para resultados de análisis de correlación"""
     solar_activity_period: str
     event_type: str
     event_name: str
@@ -68,30 +116,83 @@ class CorrelationResult(BaseModel):
     graph_image_base64: Optional[str] = None
     recommendations: List[str]
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "solar_activity_period": "2000-01 a 2024-12",
+                    "event_type": "pandemics",
+                    "event_name": "COVID-19 + Gripe Española",
+                    "correlation_score": 0.72,
+                    "confidence_interval": [0.55, 0.85],
+                    "p_value": 0.003,
+                    "phase_analysis": {
+                        "phase_difference": 0.23,
+                        "solar_dominant_frequency": 0.089,
+                        "seasonal_strength": 0.67,
+                    },
+                    "prediction": {
+                        "next_predicted_maximum": "2025-07",
+                        "current_risk_level": "Moderado",
+                        "estimated_risk_period": "2025-2026",
+                    },
+                    "graph_image_base64": "iVBORw0KGgo...",
+                    "recommendations": [
+                        "Fuerte correlación detectada",
+                        "Implementar sistema de alerta temprana",
+                    ],
+                }
+            ]
+        }
+    }
+
 
 class HealthAlert(BaseModel):
+    """Modelo para alertas de salud"""
     level: str
     message: str
     expected_impact: str
     timeframe: str
     protective_measures: List[str]
 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "level": "Moderado",
+                    "message": "Actividad solar moderada. Vigilar indicadores de salud.",
+                    "expected_impact": "Posible aumento en condiciones cardiovasculares",
+                    "timeframe": "Próximas 2-4 semanas",
+                    "protective_measures": [
+                        "Monitorear pacientes cardiovasculares",
+                        "Mantener sistemas de vigilancia activos",
+                    ],
+                },
+                {
+                    "level": "Alto",
+                    "message": "Alta actividad solar con tendencia creciente.",
+                    "expected_impact": "Mayor riesgo de eventos de salud pública",
+                    "timeframe": "Próximas 4-8 semanas",
+                    "protective_measures": [
+                        "Alertar sistemas de salud",
+                        "Preparar recursos médicos adicionales",
+                    ],
+                },
+            ]
+        }
+    }
 
-# Base de conocimiento de Chizhevsky
+
+# ================== BASE DE CONOCIMIENTO ==================
+
 CHIZHEVSKY_KNOWLEDGE_BASE = {
     "solar_cycles": {
         "duration": 11.2,
         "phases": {
             "minimum": {"duration": 3, "characteristics": ["pasividad", "gobierno autocrático"]},
             "organizing": {"duration": 2, "characteristics": ["organización bajo nuevos líderes"]},
-            "maximum": {
-                "duration": 3,
-                "characteristics": ["máxima excitabilidad", "revoluciones", "guerras"],
-            },
-            "declining": {
-                "duration": 3,
-                "characteristics": ["disminución de excitabilidad", "apatía"],
-            },
+            "maximum": {"duration": 3, "characteristics": ["máxima excitabilidad", "revoluciones", "guerras"]},
+            "declining": {"duration": 3, "characteristics": ["disminución de excitabilidad", "apatía"]},
         },
     },
     "historical_correlations": {
@@ -99,10 +200,7 @@ CHIZHEVSKY_KNOWLEDGE_BASE = {
         "1918": {"solar_activity": "very_high", "events": ["Gripe Española"]},
         "1939": {"solar_activity": "high", "events": ["Inicio Segunda Guerra Mundial"]},
         "1957": {"solar_activity": "high", "events": ["Gripe Asiática"]},
-        "1968": {
-            "solar_activity": "medium",
-            "events": ["Revoluciones culturales", "Gripe de Hong Kong"],
-        },
+        "1968": {"solar_activity": "medium", "events": ["Revoluciones culturales", "Gripe de Hong Kong"]},
         "1989": {"solar_activity": "high", "events": ["Caída del Muro de Berlín"]},
         "2003": {"solar_activity": "medium", "events": ["SARS"]},
         "2009": {"solar_activity": "low", "events": ["Gripe A(H1N1)"]},
@@ -123,147 +221,78 @@ DB_PATH = "heliobio_data.db"
 def init_database():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS solar_activity (
-        date TEXT PRIMARY KEY,
-        sunspot_number REAL,
-        flare_index REAL,
-        geomagnetic_ap REAL,
-        solar_wind_speed REAL,
-        cosmic_ray_intensity REAL
-    )""")
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS epidemiological_events (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT, start_date TEXT, end_date TEXT,
-        death_count INTEGER, affected_regions TEXT,
-        solar_correlation REAL, notes TEXT
-    )""")
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS correlations (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        event_type TEXT, solar_parameter TEXT,
-        correlation_score REAL, p_value REAL,
-        timeframe TEXT, analysis_date TEXT
-    )""")
+    cursor.execute("""CREATE TABLE IF NOT EXISTS solar_activity (
+        date TEXT PRIMARY KEY, sunspot_number REAL, flare_index REAL,
+        geomagnetic_ap REAL, solar_wind_speed REAL, cosmic_ray_intensity REAL)""")
+    cursor.execute("""CREATE TABLE IF NOT EXISTS epidemiological_events (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, start_date TEXT, end_date TEXT,
+        death_count INTEGER, affected_regions TEXT, solar_correlation REAL, notes TEXT)""")
+    cursor.execute("""CREATE TABLE IF NOT EXISTS correlations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, event_type TEXT, solar_parameter TEXT,
+        correlation_score REAL, p_value REAL, timeframe TEXT, analysis_date TEXT)""")
     conn.commit()
     conn.close()
 
 
-# Función mejorada de obtención de datos solares
+# ================== OBTENCIÓN DE DATOS ==================
+
 async def fetch_solar_data(start_date: str, end_date: str) -> pd.DataFrame:
-    """
-    Obtiene datos de actividad solar.
-    - Intenta NASA DONKI para datos recientes
-    - Genera sintéticos para períodos históricos completos
-    """
     start_dt = pd.Timestamp(start_date)
     end_dt = pd.Timestamp(end_date)
     months = pd.date_range(start=start_dt, end=end_dt, freq="MS")
     n = len(months)
 
-    # Siempre generamos una base sintética realista (ciclo solar de 11 años)
     t = np.arange(n)
     ssn = 80 * np.sin(2 * np.pi * t / (11.2 * 12)) ** 2 + np.random.normal(0, 15, n)
     ssn = np.clip(ssn, 0, None)
 
     flare_index = ssn * 0.1 + np.random.normal(0, 0.5, n)
     geomagnetic_ap = ssn * 0.5 + np.random.normal(0, 2, n)
-    400 + ssn * 2 + np.random.normal(0, 20, n)
-    100 - ssn * 0.5 + np.random.normal(0, 5, n)
 
-    # Intentar enriquecer con datos reales de NASA DONKI (últimos 30 días)
     try:
         today = datetime.now()
         nasa_start = (today - timedelta(days=30)).strftime("%Y-%m-%d")
         nasa_end = today.strftime("%Y-%m-%d")
         url = f"https://api.nasa.gov/DONKI/FLR?startDate={nasa_start}&endDate={nasa_end}&api_key=DEMO_KEY"
-
         async with aiohttp.ClientSession() as session:
             async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as resp:
                 if resp.status == 200:
                     flares = await resp.json()
-                    # Contar llamaradas por día como indicador de actividad
-                    flare_dates = {}
-                    for flare in flares:
-                        try:
-                            dt = pd.Timestamp(flare["beginTime"]).floor("D")
-                            intensity = flare.get("classType", "C1")
-                            # Convertir clase a número: C=1, M=10, X=100
-                            letter = intensity[0]
-                            num = float(intensity[1:]) if len(intensity) > 1 else 1.0
-                            multiplier = {"C": 1, "M": 10, "X": 100}.get(letter, 1)
-                            flare_dates[dt] = flare_dates.get(dt, 0) + num * multiplier
-                        except:
-                            pass
-                    # Ajustar los últimos meses con datos reales si hay solapamiento
-                    if flare_dates:
-                        pd.Series(flare_dates).resample("D").sum().fillna(0)
-                        # Esto solo afecta la visualización; mantenemos el sintético como base
-                        print(f"NASA DONKI: {len(flares)} flares obtenidos")
-    except Exception as e:
-        print(f"Datos NASA no disponibles: {e}")
+                    print(f"NASA DONKI: {len(flares)} flares obtenidos")
+    except Exception:
+        pass
 
-    # Construir DataFrame final
-    df = pd.DataFrame(
-        {
-            "date": months,
-            "sunspot_number": ssn,
-            "flare_activity": flare_index,
-            "geomagnetic_storm": geomagnetic_ap,
-            "classification": [
-                "moderate" if 50 <= s < 150 else "low" if s < 50 else "high" for s in ssn
-            ],
-        }
-    )
+    df = pd.DataFrame({
+        "date": months,
+        "sunspot_number": ssn,
+        "flare_activity": flare_index,
+        "geomagnetic_storm": geomagnetic_ap,
+        "classification": ["moderate" if 50 <= s < 150 else "low" if s < 50 else "high" for s in ssn],
+    })
     return df
 
 
 def get_epidemiological_data() -> pd.DataFrame:
     pandemics = [
-        {
-            "name": "Influenza Rusa",
-            "start_year": 1889,
-            "end_year": 1890,
-            "death_count": 1000000,
-            "affected_regions": ["Global"],
-            "solar_correlation": 0.87,
-            "notes": "Asociada con máximo solar. Ciclo solar 13.",
-        },
-        {
-            "name": "Gripe Española",
-            "start_year": 1918,
-            "end_year": 1920,
-            "death_count": 50000000,
-            "affected_regions": ["Global"],
-            "solar_correlation": 0.92,
-            "notes": "Inicio durante máximo solar. Ciclo solar 15.",
-        },
-        {
-            "name": "Gripe Asiática",
-            "start_year": 1957,
-            "end_year": 1958,
-            "death_count": 2000000,
-            "affected_regions": ["Global"],
-            "solar_correlation": 0.78,
-            "notes": "Inicio durante máximo solar. Ciclo solar 19.",
-        },
-        {
-            "name": "COVID-19",
-            "start_year": 2019,
-            "end_year": 2023,
-            "death_count": 7000000,
-            "affected_regions": ["Global"],
-            "solar_correlation": 0.65,
-            "notes": "Inicio en fase mínima del Ciclo Solar 24.",
-        },
+        {"name": "Influenza Rusa", "start_year": 1889, "end_year": 1890,
+         "death_count": 1000000, "affected_regions": ["Global"],
+         "solar_correlation": 0.87, "notes": "Asociada con máximo solar. Ciclo solar 13."},
+        {"name": "Gripe Española", "start_year": 1918, "end_year": 1920,
+         "death_count": 50000000, "affected_regions": ["Global"],
+         "solar_correlation": 0.92, "notes": "Inicio durante máximo solar. Ciclo solar 15."},
+        {"name": "Gripe Asiática", "start_year": 1957, "end_year": 1958,
+         "death_count": 2000000, "affected_regions": ["Global"],
+         "solar_correlation": 0.78, "notes": "Inicio durante máximo solar. Ciclo solar 19."},
+        {"name": "COVID-19", "start_year": 2019, "end_year": 2023,
+         "death_count": 7000000, "affected_regions": ["Global"],
+         "solar_correlation": 0.65, "notes": "Inicio en fase mínima del Ciclo Solar 24."},
     ]
     return pd.DataFrame(pandemics)
 
 
-def advanced_correlation_analysis(
-    solar_df: pd.DataFrame, event_dates: List[datetime]
-) -> Dict[str, Any]:
+# ================== ANÁLISIS ==================
+
+def advanced_correlation_analysis(solar_df: pd.DataFrame, event_dates: List[datetime]) -> Dict[str, Any]:
     solar_values = solar_df["sunspot_number"].values
     event_density = np.zeros(len(solar_df))
     for ev in event_dates:
@@ -312,9 +341,7 @@ def predict_next_events(solar_df: pd.DataFrame, analysis: Dict) -> Dict[str, Any
     risk = "Alto" if phase > 0.7 else "Bajo" if phase < 0.3 else "Moderado"
 
     return {
-        "next_predicted_maximum": (
-            next_maxima[0].strftime("%Y-%m") if next_maxima else "Desconocido"
-        ),
+        "next_predicted_maximum": next_maxima[0].strftime("%Y-%m") if next_maxima else "Desconocido",
         "current_risk_level": risk,
         "estimated_risk_period": f"{next_maxima[0].strftime('%Y-%m') if next_maxima else '2024-2025'}",
         "recommended_actions": [
@@ -325,12 +352,11 @@ def predict_next_events(solar_df: pd.DataFrame, analysis: Dict) -> Dict[str, Any
     }
 
 
-# Endpoints
+# ================== ENDPOINTS ==================
+
 @app.get("/")
 async def root():
-    return {
-        "message": "HelioBio-API - Sistema de análisis heliobiológico basado en los estudios de Alexander Chizhevsky"
-    }
+    return {"message": "HelioBio-API - Sistema de análisis heliobiológico basado en los estudios de Alexander Chizhevsky"}
 
 
 @app.get("/solar/activity", response_model=List[SolarActivity])
@@ -352,9 +378,7 @@ async def correlate_events(
     years_after: int = 5,
 ):
     end_date = datetime.now().strftime("%Y-%m-%d")
-    start_date = (datetime.now() - timedelta(days=365 * (years_before + years_after))).strftime(
-        "%Y-%m-%d"
-    )
+    start_date = (datetime.now() - timedelta(days=365 * (years_before + years_after))).strftime("%Y-%m-%d")
     solar_df = await fetch_solar_data(start_date, end_date)
 
     if event_type == "pandemics":
@@ -366,7 +390,6 @@ async def correlate_events(
     analysis = advanced_correlation_analysis(solar_df, event_dates)
     prediction = predict_next_events(solar_df, analysis)
 
-    # Generar visualización
     plt.figure(figsize=(12, 8))
     plt.subplot(2, 1, 1)
     plt.plot(solar_df["date"], solar_df["sunspot_number"], "b-", label="Manchas Solares")
@@ -385,12 +408,7 @@ async def correlate_events(
         idx = diffs.idxmin()
         event_density[idx] += 1
     smoothed = np.convolve(event_density, np.ones(12) / 12, mode="same")
-    plt.plot(
-        solar_df["date"],
-        solar_df["sunspot_number"] / max(solar_df["sunspot_number"]),
-        "b-",
-        label="Solar (norm)",
-    )
+    plt.plot(solar_df["date"], solar_df["sunspot_number"] / max(solar_df["sunspot_number"]), "b-", label="Solar (norm)")
     plt.plot(solar_df["date"], smoothed / max(smoothed), "r-", label="Eventos (norm)")
     plt.xlabel("Año")
     plt.ylabel("Normalizado")
@@ -435,19 +453,11 @@ async def get_current_alerts():
 
     recent = df["sunspot_number"].tail(30).mean()
     last_n = min(30, len(df))
-    trend = (
-        np.polyfit(range(last_n), df["sunspot_number"].tail(last_n).values, 1)[0]
-        if last_n >= 2
-        else 0
-    )
+    trend = np.polyfit(range(last_n), df["sunspot_number"].tail(last_n).values, 1)[0] if last_n >= 2 else 0
 
     if recent > 100 and trend > 0:
         level, msg = "Alto", "Alta actividad solar con tendencia creciente."
-        measures = [
-            "Monitorear pacientes cardiovasculares",
-            "Alertar sistemas de salud",
-            "Precaución al aire libre",
-        ]
+        measures = ["Monitorear pacientes cardiovasculares", "Alertar sistemas de salud", "Precaución al aire libre"]
     elif recent > 50:
         level, msg = "Moderado", "Actividad solar moderada."
         measures = ["Observar tendencias de salud", "Mantener monitoreo activo"]
@@ -455,15 +465,12 @@ async def get_current_alerts():
         level, msg = "Bajo", "Actividad solar baja. Riesgo mínimo."
         measures = ["Continuar monitoreo rutinario"]
 
-    return [
-        HealthAlert(
-            level=level,
-            message=msg,
-            expected_impact="Posible aumento en condiciones cardiovasculares y neurológicas",
-            timeframe="Próximas 2-4 semanas",
-            protective_measures=measures,
-        )
-    ]
+    return [HealthAlert(
+        level=level, message=msg,
+        expected_impact="Posible aumento en condiciones cardiovasculares y neurológicas",
+        timeframe="Próximas 2-4 semanas",
+        protective_measures=measures,
+    )]
 
 
 @app.get("/chizhevsky/knowledge")
@@ -478,5 +485,4 @@ async def startup():
 
 if __name__ == "__main__":
     import uvicorn
-
     uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
