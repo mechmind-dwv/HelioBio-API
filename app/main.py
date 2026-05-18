@@ -31,7 +31,7 @@ import aiohttp
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, WebSocket
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from scipy import signal, stats
