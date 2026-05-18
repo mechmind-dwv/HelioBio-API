@@ -3,14 +3,14 @@ import os
 from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-try:
-    try:
-    import aiosmtplib
-except ImportError:
-    aiosmtplib = None
-except ImportError:
-    aiosmtplib = None
 from typing import List, Optional
+
+try:
+    import aiosmtplib
+    HAS_SMTP = True
+except ImportError:
+    aiosmtplib = None
+    HAS_SMTP = False
 
 SMTP_CONFIG = {
     "hostname": os.getenv("SMTP_HOST", "smtp.gmail.com"),
@@ -24,6 +24,9 @@ FROM_EMAIL = os.getenv("FROM_EMAIL", "ia.mechmind@gmail.com")
 
 async def send_alert_notification(alert_data: dict, recipients: List[str]) -> bool:
     """Envía notificación de alerta por email"""
+    if not HAS_SMTP:
+        print("❌ aiosmtplib no instalado")
+        return False
     try:
         subject = f"[HelioBio-API] ⚠️ Alerta {alert_data['level']}: {alert_data['message'][:50]}"
         body = f"""
