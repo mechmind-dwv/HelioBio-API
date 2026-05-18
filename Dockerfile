@@ -1,20 +1,41 @@
-# Usa una imagen base de Python oficial, que es ligera y optimizada
-FROM python:3.10-slim-buster
+# Imagen base Python optimizada
+FROM python:3.12-slim
 
-# Define el directorio de trabajo dentro del contenedor
+# Metadatos del proyecto
+LABEL maintainer="ia.mechmind@gmail.com"
+LABEL description="HelioBio-API - Sistema Avanzado de Análisis Heliobiológico"
+LABEL version="3.0.0"
+
+# Directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos de requisitos y los instala para aprovechar el caché de capas de Docker
-# Esto acelera las reconstrucciones si el requirements.txt no ha cambiado
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Instalar dependencias del sistema necesarias para compilar paquetes científicos
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    gfortran \
+    libopenblas-dev \
+    liblapack-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copia todo el código fuente de la aplicación al directorio de trabajo del contenedor
+# Copiar e instalar dependencias Python
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Copiar el código fuente
 COPY . .
 
-# Expone el puerto en el que la aplicación se ejecutará
+# Crear directorios necesarios
+RUN mkdir -p data/cache data/logs data/models data/exports
+
+# Exponer puerto
 EXPOSE 8000
 
-# Comando para ejecutar la aplicación usando Uvicorn, el servidor ASGI
-# La bandera --host 0.0.0.0 permite que la aplicación sea accesible desde fuera del contenedor
+# Variables de entorno
+ENV HOST=0.0.0.0
+ENV PORT=8000
+ENV PYTHONUNBUFFERED=1
+
+# Comando de inicio
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

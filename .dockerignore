@@ -1,0 +1,32 @@
+# Entorno virtual
+venv/
+env/
+.venv/
+
+# Git
+.git/
+.gitignore
+
+# Cachés
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+
+# Datos locales
+*.db
+*.sqlite3
+data/cache/
+data/logs/
+
+# IDE
+.vscode/
+.idea/
+
+# Archivos temporales
+*.pyc
+*.bak
+*.tmp
+
+# Documentación (opcional en contenedor)
+docs/
+*.md
