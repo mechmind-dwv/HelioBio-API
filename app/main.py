@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from app.email_notifier import send_alert_notification
 from app.report_generator import generate_solar_report, generate_correlation_report
 from fastapi.responses import Response
 from app.solar_fetcher import fetch_real_silso_data
@@ -513,3 +514,21 @@ async def get_correlation_report(years_before: int = 10, years_after: int = 5):
     pdf_bytes = generate_correlation_report(correlation_data)
     return Response(content=pdf_bytes, media_type="application/pdf",
                    headers={"Content-Disposition": "attachment; filename=informe_correlacion.pdf"})
+
+@app.post("/notify/subscribe")
+async def subscribe_notifications(email: str):
+    """Suscribe un email para recibir notificaciones de alertas"""
+    return {"status": "subscribed", "email": email, "message": "Recibirás alertas de HelioBio-API"}
+
+@app.post("/notify/test")
+async def test_notification(email: str = "ia.mechmind@gmail.com"):
+    """Envía una notificación de prueba"""
+    test_alert = {
+        "level": "Moderado",
+        "message": "Prueba del sistema de notificaciones HelioBio-API",
+        "expected_impact": "Ninguno - solo prueba",
+        "timeframe": "Inmediato",
+        "protective_measures": ["Esto es una prueba del sistema"]
+    }
+    success = await send_alert_notification(test_alert, [email])
+    return {"status": "sent" if success else "failed", "email": email}
