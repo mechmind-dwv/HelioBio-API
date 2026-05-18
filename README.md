@@ -744,3 +744,33 @@ Basado en el trabajo pionero de Alexander Leonidovich Chizhevsky
 🔝 Volver arriba
 
 </div>
+
+---
+
+## 📈 Roadmap
+
+### v3.0.0 ✅ Completado
+- [x] API RESTful con 9 endpoints
+- [x] Datos SILSO reales (Ciclo Solar 25, SSN=216)
+- [x] Dashboard HTML interactivo
+- [x] 27 tests automatizados
+- [x] Docker + CI/CD
+
+### v3.1.0 ✅ Completado
+- [x] Más fuentes de datos (OMS, CDC)
+- [x] Exportación de reportes PDF (Solar + Correlación)
+- [x] Sistema de notificaciones por email
+- [x] API de webhooks
+
+### v3.2.0 ✅ Completado
+- [x] Modelos de deep learning (LSTM)
+- [x] Sistema de usuarios y autenticación JWT
+- [x] API GraphQL con Strawberry
+
+### v4.0.0 🔜 En planificación
+- [ ] Aplicación móvil (iOS/Android)
+- [ ] Machine Learning en tiempo real
+- [ ] Análisis de sentimiento en redes sociales
+- [ ] Predicción multiparamétrica avanzada
+- [ ] Integración con IoT y wearables
+
