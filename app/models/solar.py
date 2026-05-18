@@ -7,7 +7,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, field_validator
 
 
 class SolarCyclePhase(str, Enum):
@@ -45,13 +45,13 @@ class SolarActivity(BaseModel):
     data_source: str = "unknown"
     created_at: Optional[datetime] = None
 
-    @validator("sunspot_number")
+    @field_validator("sunspot_number")
     def validate_ssn(cls, v):
         if v < 0:
             raise ValueError("Sunspot number cannot be negative")
         return v
 
-    @validator("activity_level", pre=True, always=True)
+    @field_validator("activity_level", pre=True, always=True)
     def determine_activity_level(cls, v, values):
         if "sunspot_number" in values:
             ssn = values["sunspot_number"]
@@ -81,7 +81,7 @@ class SolarForecast(BaseModel):
     cycle_phase: SolarCyclePhase
     forecast_method: str
 
-    @validator("upper_bound")
+    @field_validator("upper_bound")
     def validate_bounds(cls, v, values):
         if "lower_bound" in values and v < values["lower_bound"]:
             raise ValueError("Upper bound must be greater than lower bound")
