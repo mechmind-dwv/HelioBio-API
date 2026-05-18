@@ -1,0 +1,14 @@
+[Unit]
+Description=HelioBio-API Service
+After=network.target
+
+[Service]
+Type=simple
+User=youruser
+WorkingDirectory=/home/youruser/HelioBio-API
+Environment="PATH=/home/youruser/HelioBio-API/venv/bin"
+ExecStart=/home/youruser/HelioBio-API/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
