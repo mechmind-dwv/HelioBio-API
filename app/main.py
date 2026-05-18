@@ -273,7 +273,8 @@ def advanced_correlation_analysis(solar_df: pd.DataFrame, event_dates: List[date
     for ev in event_dates:
         diffs = np.abs((solar_df["date"] - ev).dt.days)
         idx = diffs.idxmin()
-        event_density[idx] += 1
+        if idx < len(event_density):
+            event_density[idx] += 1
     smoothed = np.convolve(event_density, np.ones(12) / 12, mode="same")
     corr, pval = stats.pearsonr(solar_values, smoothed)
 
@@ -381,7 +382,8 @@ async def correlate_events(
     for ev in event_dates:
         diffs = np.abs((solar_df["date"] - ev).dt.days)
         idx = diffs.idxmin()
-        event_density[idx] += 1
+        if idx < len(event_density):
+            event_density[idx] += 1
     smoothed = np.convolve(event_density, np.ones(12) / 12, mode="same")
     plt.plot(solar_df["date"], solar_df["sunspot_number"] / max(solar_df["sunspot_number"]), "b-", label="Solar (norm)")
     plt.plot(solar_df["date"], smoothed / max(smoothed), "r-", label="Eventos (norm)")
