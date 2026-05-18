@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from app.who_data import get_who_pandemics, get_who_health_indicators
+from app.cdc_data import get_cdc_influenza, get_cdc_outbreaks, get_cdc_seasonal_patterns
 from app.webhooks import register_webhook, list_webhooks, delete_webhook, trigger_webhooks
 from app.email_notifier import send_alert_notification
 from app.report_generator import generate_solar_report, generate_correlation_report
@@ -557,3 +559,28 @@ async def webhook_test(event: str = "alert"):
     test_payload = {"message": "Prueba de webhook HelioBio-API", "source": "test"}
     count = await trigger_webhooks(event, test_payload)
     return {"event": event, "webhooks_triggered": count}
+
+@app.get("/who/pandemics")
+async def who_pandemics():
+    """Pandemias verificadas por la OMS con correlación solar"""
+    return get_who_pandemics()
+
+@app.get("/who/health-indicators")
+async def who_indicators():
+    """Indicadores globales de salud de la OMS"""
+    return get_who_health_indicators()
+
+@app.get("/cdc/influenza")
+async def cdc_influenza():
+    """Vigilancia de influenza del CDC"""
+    return get_cdc_influenza()
+
+@app.get("/cdc/outbreaks")
+async def cdc_outbreaks():
+    """Brotes documentados por el CDC"""
+    return get_cdc_outbreaks()
+
+@app.get("/cdc/seasonal-patterns")
+async def cdc_patterns():
+    """Patrones estacionales según CDC"""
+    return get_cdc_seasonal_patterns()
