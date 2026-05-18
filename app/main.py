@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from app.websocket_handler import stream_solar_data, manager
-from app.sentiment_analyzer import get_public_sentiment
+from app.sentiment_analyzer import get_public_sentiment, analyze_sentiment
 from app.auth import USERS_DB
 from app.auth import create_access_token, verify_password, get_current_user, require_admin
 from app.deep_learning import deep_solar_prediction
@@ -31,7 +31,7 @@ import aiohttp
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from fastapi import FastAPI, Depends, WebSocket
+from fastapi import FastAPI, Depends, WebSocket, HTTPException
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from scipy import signal, stats
