@@ -4,7 +4,10 @@ from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 try:
+    try:
     import aiosmtplib
+except ImportError:
+    aiosmtplib = None
 except ImportError:
     aiosmtplib = None
 from typing import List, Optional
