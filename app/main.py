@@ -30,6 +30,8 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc"
 )
+from fastapi.staticfiles import StaticFiles
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Modelos de datos
 class SolarActivity(BaseModel):
