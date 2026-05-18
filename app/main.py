@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from app.historiometry import SocialExcitabilityIndex, get_historiometric_analysis
+from app.ionosphere import IonosphereMonitor, BioResonancePredictor
 from app.transformer_predictor import MultiParamPredictor, IoTSimulator
 from app.health_check import get_health_status
 from app.websocket_handler import stream_solar_data, manager
@@ -636,3 +638,42 @@ async def analyze_custom_text(text: str):
     """Analiza el sentimiento de un texto personalizado"""
     result = await analyze_sentiment([text])
     return result
+
+# ================== v5.0.0 - IONISMO DIGITAL ==================
+
+@app.get("/ionosphere/schumann")
+async def schumann_resonance():
+    """Estado actual de la Resonancia Schumann"""
+    monitor = IonosphereMonitor()
+    return monitor.calculate_schumann_resonance(400, 3.2)
+
+@app.get("/ionosphere/tec")
+async def ionosphere_tec(ssn: float = 120):
+    """Estimación de TEC ionosférico"""
+    monitor = IonosphereMonitor()
+    return monitor.estimate_tec(ssn)
+
+@app.get("/ionosphere/bio-effects")
+async def bio_resonance_effects():
+    """Efectos biológicos predichos por resonancia electromagnética"""
+    predictor = BioResonancePredictor()
+    return predictor.predict_health_effects(0.15, 35)
+
+# ================== v6.0.0 - HISTORIOMETRÍA ==================
+
+@app.get("/historiometry/sei")
+async def social_excitability_index(ssn: float = 120, sentiment: float = 0):
+    """Índice de Excitabilidad Social (Chizhevsky)"""
+    sei = SocialExcitabilityIndex()
+    return sei.calculate_sei(ssn, "ascending" if ssn > 80 else "stable", sentiment)
+
+@app.get("/historiometry/events")
+async def historical_events():
+    """Base de datos historiométrica completa"""
+    sei = SocialExcitabilityIndex()
+    return sei.get_historical_correlations()
+
+@app.get("/historiometry/analysis")
+async def historiometric_analysis(ssn: float = 120):
+    """Análisis historiométrico completo"""
+    return await get_historiometric_analysis(ssn)
