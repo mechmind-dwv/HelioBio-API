@@ -3,7 +3,10 @@ import os
 from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import aiosmtplib
+try:
+    import aiosmtplib
+except ImportError:
+    aiosmtplib = None
 from typing import List, Optional
 
 SMTP_CONFIG = {
