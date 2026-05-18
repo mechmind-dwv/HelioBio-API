@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from app.space_biology import SpaceColonySimulator, GalacticCosmicRaySimulator, ExoplanetHabitability
 from app.depin_network import DePINNetwork, EpigeneticAnalyzer, EarthDigitalTwin
 from app.historiometry import SocialExcitabilityIndex, get_historiometric_analysis
 from app.ionosphere import IonosphereMonitor, BioResonancePredictor
@@ -734,5 +735,54 @@ async def hyperlocal_alert(lat: float = 40.4, lon: float = -3.7, kp: float = 5.5
             "Evitar exposición prolongada al sol en máximos solares" if kp > 3 else "",
         ],
         "chizhevsky_note": "Chizhevsky documentó que las perturbaciones geomagnéticas afectan más a latitudes altas",
+        "timestamp": datetime.now().isoformat()
+    }
+
+# ================== v8.0.0 - ESPECIE MULTIPLANETARIA ==================
+
+@app.get("/space/radiation-exposure")
+async def space_radiation(destination: str = "Mars", ssn: float = 120, duration_days: int = 180):
+    """Calcula exposición a radiación en misiones espaciales"""
+    colony = SpaceColonySimulator()
+    return colony.calculate_radiation_exposure(destination, ssn, duration_days)
+
+@app.get("/space/crew-health")
+async def crew_health_prediction(destination: str = "Mars", crew_size: int = 6, ssn: float = 120):
+    """Predice efectos en la salud de la tripulación espacial"""
+    colony = SpaceColonySimulator()
+    return colony.predict_crew_health(destination, crew_size, ssn)
+
+@app.get("/space/galactic-cosmic-rays")
+async def galactic_cosmic_rays(ssn: float = 120, solar_wind_speed: float = 400):
+    """Simula flujo de Rayos Cósmicos Galácticos"""
+    gcr = GalacticCosmicRaySimulator()
+    return gcr.simulate_gcr_flux(ssn, solar_wind_speed)
+
+@app.get("/space/exoplanet-habitability")
+async def exoplanet_habitability(star_type: str = "G", orbital_distance_au: float = 1.0,
+                                 magnetic_field: bool = True, ssn_equivalent: float = 100):
+    """Evalúa habitabilidad de exoplanetas basado en heliobiología"""
+    exo = ExoplanetHabitability()
+    return exo.assess_habitability(star_type, orbital_distance_au, magnetic_field, ssn_equivalent)
+
+@app.get("/space/mission-briefing")
+async def space_mission_briefing(destination: str = "Mars", crew_size: int = 6, 
+                                 ssn: float = 120, duration_days: int = 500):
+    """Briefing completo de misión espacial"""
+    colony = SpaceColonySimulator()
+    gcr = GalacticCosmicRaySimulator()
+    
+    radiation = colony.calculate_radiation_exposure(destination, ssn, duration_days)
+    crew = colony.predict_crew_health(destination, crew_size, ssn)
+    cosmic_rays = gcr.simulate_gcr_flux(ssn)
+    
+    return {
+        "mission": f"HelioBio Mission to {destination}",
+        "crew_size": crew_size,
+        "duration_days": duration_days,
+        "radiation_analysis": radiation,
+        "crew_health": crew,
+        "cosmic_environment": cosmic_rays,
+        "chizhevsky_mission_note": "La heliobiología será la ciencia que proteja a la humanidad en su expansión cósmica",
         "timestamp": datetime.now().isoformat()
     }
