@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from app.depin_network import DePINNetwork, EpigeneticAnalyzer, EarthDigitalTwin
 from app.historiometry import SocialExcitabilityIndex, get_historiometric_analysis
 from app.ionosphere import IonosphereMonitor, BioResonancePredictor
 from app.transformer_predictor import MultiParamPredictor, IoTSimulator
@@ -677,3 +678,61 @@ async def historical_events():
 async def historiometric_analysis(ssn: float = 120):
     """Análisis historiométrico completo"""
     return await get_historiometric_analysis(ssn)
+
+# ================== v7.0.0 - DePIN + EPIGENÉTICA + GEMELO DIGITAL ==================
+
+@app.get("/depin/network-status")
+async def depin_network_status(kp: float = 3.2):
+    """Estado de la red ciudadana HelioBio"""
+    network = DePINNetwork()
+    return network.simulate_global_network(kp)
+
+@app.get("/epigenetics/viral-mutations")
+async def epigenetic_analysis(ssn: float = 120, pandemic_phase: str = "maximum"):
+    """Análisis epigenético de patrones de mutación viral"""
+    analyzer = EpigeneticAnalyzer()
+    return analyzer.analyze_viral_mutation_patterns(ssn, pandemic_phase)
+
+@app.get("/earth-digital-twin/telluric")
+async def telluric_currents(geomagnetic_kp: float = 3.2, ssn: float = 120):
+    """Simulación de corrientes telúricas - Gemelo Digital Terrestre"""
+    twin = EarthDigitalTwin()
+    return twin.simulate_telluric_currents(geomagnetic_kp, ssn)
+
+@app.get("/depin/hyperlocal-alert")
+async def hyperlocal_alert(lat: float = 40.4, lon: float = -3.7, kp: float = 5.5):
+    """Alerta hiperlocal personalizada basada en ubicación y actividad geomagnética"""
+    risk_factors = []
+    
+    # Factor latitudinal (zonas aurorales son más afectadas)
+    abs_lat = abs(lat)
+    if abs_lat > 55:
+        lat_risk = "ALTO - Zona auroral activa"
+        risk_factors.append("Alta exposición a corrientes telúricas")
+    elif abs_lat > 40:
+        lat_risk = "MODERADO - Latitudes medias"
+        risk_factors.append("Exposición moderada a perturbaciones geomagnéticas")
+    else:
+        lat_risk = "BAJO - Zona ecuatorial"
+    
+    # Factor Kp
+    if kp > 7:
+        risk_factors.append("Tormenta geomagnética severa - Riesgo elevado de migrañas")
+        risk_factors.append("Posibles alteraciones del sueño")
+    elif kp > 5:
+        risk_factors.append("Tormenta geomagnética moderada")
+    elif kp > 3:
+        risk_factors.append("Actividad geomagnética leve")
+    
+    return {
+        "location": {"lat": lat, "lon": lon},
+        "geomagnetic_kp": kp,
+        "latitude_risk": lat_risk,
+        "risk_factors": risk_factors,
+        "recommendations": [
+            "Monitorear frecuencia cardíaca si hay historial de arritmias" if kp > 5 else "",
+            "Evitar exposición prolongada al sol en máximos solares" if kp > 3 else "",
+        ],
+        "chizhevsky_note": "Chizhevsky documentó que las perturbaciones geomagnéticas afectan más a latitudes altas",
+        "timestamp": datetime.now().isoformat()
+    }
