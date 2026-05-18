@@ -31,6 +31,8 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 from fastapi.staticfiles import StaticFiles
+from app.dashboard import router as dashboard_router
+app.include_router(dashboard_router)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Modelos de datos
