@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from app.websocket_handler import stream_solar_data, manager
+from app.sentiment_analyzer import get_public_sentiment
 from app.auth import USERS_DB
 from app.auth import create_access_token, verify_password, get_current_user, require_admin
 from app.deep_learning import deep_solar_prediction
@@ -616,3 +618,19 @@ async def deep_prediction(months_ahead: int = 12):
     solar_df = await fetch_solar_data(start_date, end_date)
     solar_data = solar_df.to_dict('records')
     return await deep_solar_prediction(solar_data, months_ahead)
+
+@app.websocket("/ws/solar-stream")
+async def websocket_solar(websocket: WebSocket):
+    """Streaming de actividad solar en tiempo real vía WebSocket"""
+    await stream_solar_data(websocket)
+
+@app.get("/sentiment/public")
+async def public_sentiment():
+    """Análisis de sentimiento público sobre eventos heliobiológicos"""
+    return await get_public_sentiment()
+
+@app.get("/sentiment/analyze")
+async def analyze_custom_text(text: str):
+    """Analiza el sentimiento de un texto personalizado"""
+    result = await analyze_sentiment([text])
+    return result
