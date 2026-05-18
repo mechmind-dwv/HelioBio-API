@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from app.space_weather import fetch_real_space_weather
+from app.solar_cycles import get_solar_cycles_data
 """
 HelioBio-API - Sistema avanzado de análisis heliobiológico
 Basado en los estudios de Alexander Leonidovich Chizhevsky (1897-1964)
@@ -486,3 +488,13 @@ async def startup():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+
+@app.get("/space-weather")
+async def get_space_weather():
+    """Datos de clima espacial en tiempo real de NOAA"""
+    return await fetch_real_space_weather()
+
+@app.get("/solar-cycles")
+async def get_solar_cycles():
+    """Historial completo de ciclos solares (1755-presente)"""
+    return get_solar_cycles_data().to_dict("records")
