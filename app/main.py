@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from app.report_generator import generate_solar_report, generate_correlation_report
+from fastapi.responses import Response
 from app.solar_fetcher import fetch_real_silso_data
 from app.space_weather import fetch_real_space_weather
 from app.solar_cycles import get_solar_cycles_data
@@ -478,3 +480,36 @@ async def get_space_weather():
 async def get_solar_cycles():
     """Historial completo de ciclos solares (1755-presente)"""
     return get_solar_cycles_data().to_dict("records")
+
+@app.get("/report/solar")
+async def get_solar_report(start_date: str = "2024-01-01", end_date: str = "2024-12-31"):
+    """Genera y descarga un informe PDF de actividad solar"""
+    df = await fetch_solar_data(start_date, end_date)
+    solar_data = df.to_dict("records")
+    pdf_bytes = generate_solar_report(solar_data)
+    return Response(content=pdf_bytes, media_type="application/pdf",
+                   headers={"Content-Disposition": f"attachment; filename=informe_solar_{start_date}_{end_date}.pdf"})
+
+@app.get("/report/correlation")
+async def get_correlation_report(years_before: int = 10, years_after: int = 5):
+    """Genera y descarga un informe PDF de análisis de correlación"""
+    end_date = datetime.now().strftime("%Y-%m-%d")
+    start_date = (datetime.now() - timedelta(days=365*(years_before + years_after))).strftime("%Y-%m-%d")
+    solar_df = await fetch_solar_data(start_date, end_date)
+    events_df = get_epidemiological_data()
+    event_dates = [datetime(year, 6, 15) for year in events_df["start_year"]]
+    analysis = advanced_correlation_analysis(solar_df, event_dates)
+    prediction = predict_next_events(solar_df, analysis)
+    
+    correlation_data = {
+        "correlation_score": analysis["pearson_correlation"],
+        "p_value": analysis["p_value"],
+        "prediction": prediction,
+        "recommendations": [
+            "Fuerte correlación detectada. Considerar sistema de alerta temprana." if analysis["pearson_correlation"] > 0.6 else "Correlación moderada.",
+            "Los eventos tienden a ocurrir en fases solares específicas." if analysis["phase_difference"] < 0.5 else ""
+        ]
+    }
+    pdf_bytes = generate_correlation_report(correlation_data)
+    return Response(content=pdf_bytes, media_type="application/pdf",
+                   headers={"Content-Disposition": "attachment; filename=informe_correlacion.pdf"})
