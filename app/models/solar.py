@@ -51,7 +51,7 @@ class SolarActivity(BaseModel):
             raise ValueError("Sunspot number cannot be negative")
         return v
 
-    @field_validator("activity_level", pre=True, always=True)
+    @field_validator("activity_level")
     def determine_activity_level(cls, v, values):
         if "sunspot_number" in values:
             ssn = values["sunspot_number"]
