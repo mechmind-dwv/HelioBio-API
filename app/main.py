@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+from app.auth import USERS_DB
+from app.auth import create_access_token, verify_password, get_current_user, require_admin
+from app.deep_learning import deep_solar_prediction
+from app.graphql_api import graphql_app
 from app.who_data import get_who_pandemics, get_who_health_indicators
 from app.cdc_data import get_cdc_influenza, get_cdc_outbreaks, get_cdc_seasonal_patterns
 from app.webhooks import register_webhook, list_webhooks, delete_webhook, trigger_webhooks
@@ -45,6 +49,7 @@ app = FastAPI(
 )
 
 app.include_router(dashboard_router)
+app.include_router(graphql_app, prefix="/graphql")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # ================== MODELOS DE DATOS ==================
@@ -584,3 +589,30 @@ async def cdc_outbreaks():
 async def cdc_patterns():
     """Patrones estacionales según CDC"""
     return get_cdc_seasonal_patterns()
+
+@app.post("/auth/login")
+async def login(username: str, password: str):
+    """Inicia sesión y obtiene token JWT"""
+    if username in USERS_DB and verify_password(password, USERS_DB[username]["hashed_password"]):
+        token = create_access_token({"sub": username, "role": USERS_DB[username]["role"]})
+        return {"access_token": token, "token_type": "bearer", "role": USERS_DB[username]["role"]}
+    raise HTTPException(status_code=401, detail="Credenciales inválidas")
+
+@app.get("/auth/me")
+async def me(user: dict = Depends(get_current_user)):
+    """Información del usuario autenticado"""
+    return user
+
+@app.get("/admin/stats")
+async def admin_stats(user: dict = Depends(require_admin)):
+    """Estadísticas solo para administradores"""
+    return {"message": "Panel de administración", "user": user, "endpoints": 24, "tests": 27}
+
+@app.get("/predict/deep-learning")
+async def deep_prediction(months_ahead: int = 12):
+    """Predicción solar con Deep Learning (LSTM)"""
+    end_date = datetime.now().strftime("%Y-%m-%d")
+    start_date = (datetime.now() - timedelta(days=365*15)).strftime("%Y-%m-%d")
+    solar_df = await fetch_solar_data(start_date, end_date)
+    solar_data = solar_df.to_dict('records')
+    return await deep_solar_prediction(solar_data, months_ahead)
