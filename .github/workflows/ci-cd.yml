@@ -40,7 +40,7 @@ jobs:
 
       # Paso 5: Guardar los archivos de construcción para los siguientes trabajos
       - name: Subir artefactos de la construcción
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifact
           path: build/ # Cambia 'build/' por la ruta de tu carpeta de construcción
@@ -58,7 +58,7 @@ jobs:
 
       # Paso 2: Descargar los artefactos de la construcción
       - name: Descargar artefactos de la construcción
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-artifact
           path: .
@@ -86,7 +86,7 @@ jobs:
     steps:
       # Paso 1: Descargar los artefactos de la construcción
       - name: Descargar artefactos de la construcción
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-artifact
           path: .

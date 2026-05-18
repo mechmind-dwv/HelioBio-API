@@ -1,11 +1,13 @@
 # app/api/endpoints/analysis.py
 
+from typing import Any, Dict, List
+
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
-from typing import List, Dict, Any
 
 # Define un enrutador para los endpoints de análisis.
 router = APIRouter()
+
 
 # Define un modelo de datos Pydantic para un punto de datos de correlación.
 class CorrelationDataPoint(BaseModel):
@@ -13,14 +15,23 @@ class CorrelationDataPoint(BaseModel):
     Representa un punto de datos de correlación entre un evento solar
     y un evento biológico.
     """
+
     solar_event_id: str = Field(..., description="ID del evento solar.")
     biological_report_id: str = Field(..., description="ID del informe biológico.")
-    time_difference_hours: int = Field(..., description="Diferencia de tiempo en horas entre los eventos.")
+    time_difference_hours: int = Field(
+        ..., description="Diferencia de tiempo en horas entre los eventos."
+    )
     correlation_score: float = Field(..., description="Puntuación de correlación (0.0 a 1.0).")
+
 
 # ==================== ENDPOINTS DE ANÁLISIS ====================
 
-@router.get("/analysis/correlate", response_model=List[CorrelationDataPoint], summary="Realizar un análisis de correlación")
+
+@router.get(
+    "/analysis/correlate",
+    response_model=List[CorrelationDataPoint],
+    summary="Realizar un análisis de correlación",
+)
 def get_correlation_analysis() -> List[CorrelationDataPoint]:
     """
     Simula un análisis de correlación entre datos solares y biológicos.
@@ -37,22 +48,23 @@ def get_correlation_analysis() -> List[CorrelationDataPoint]:
             "solar_event_id": "M5-20250830",
             "biological_report_id": "rep-00123",
             "time_difference_hours": 12,
-            "correlation_score": 0.85
+            "correlation_score": 0.85,
         },
         {
             "solar_event_id": "X1-20250828",
             "biological_report_id": "rep-00456",
             "time_difference_hours": 6,
-            "correlation_score": 0.92
+            "correlation_score": 0.92,
         },
         {
             "solar_event_id": "C3-20250825",
             "biological_report_id": "rep-00789",
             "time_difference_hours": 3,
-            "correlation_score": 0.60
-        }
+            "correlation_score": 0.60,
+        },
     ]
     return [CorrelationDataPoint(**data) for data in correlation_results]
+
 
 @router.get("/analysis/predictive_model", summary="Obtener el estado del modelo predictivo")
 def get_predictive_model_status() -> Dict[str, Any]:
@@ -68,6 +80,6 @@ def get_predictive_model_status() -> Dict[str, Any]:
         "version": "1.2.0",
         "training_accuracy": 0.94,
         "last_trained_date": "2025-09-01T00:00:00Z",
-        "status": "online"
+        "status": "online",
     }
     return model_status

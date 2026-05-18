@@ -1,11 +1,13 @@
-import sqlite3
-from typing import List, Dict, Any
+from typing import Any, Dict
+
 from app.database.connection import get_db_connection
+
 
 class AnalysisRepository:
     """
     Gestiona las operaciones de la base de datos para los resultados del análisis.
     """
+
     def __init__(self):
         self.conn = get_db_connection()
         # En una aplicación real, aquí se crearía una tabla 'analysis_results'.
@@ -14,10 +16,10 @@ class AnalysisRepository:
     def save_analysis_result(self, result: Dict[str, Any]) -> int:
         """
         Guarda el resultado de un análisis en la base de datos.
-        
+
         Args:
             result (dict): El resultado del análisis de correlación.
-            
+
         Returns:
             int: Un ID simulado del resultado guardado.
         """
@@ -36,5 +38,5 @@ class AnalysisRepository:
             "solar_event_id": "simulated_id_123",
             "biological_data_ids": [10, 11, 12],
             "correlation_score": 0.85,
-            "notes": "Correlación fuerte entre el índice geomagnético y los síntomas reportados."
+            "notes": "Correlación fuerte entre el índice geomagnético y los síntomas reportados.",
         }

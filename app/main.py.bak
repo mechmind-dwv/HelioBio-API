@@ -2,26 +2,24 @@
 """
 HelioBio-API - Sistema avanzado de análisis heliobiológico basado en los estudios de Alexander Chizhevsky
 """
-import asyncio
 import warnings
+
 warnings.filterwarnings('ignore')
 
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
-from datetime import datetime, timedelta
-from typing import List, Optional, Dict, Any
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from io import BytesIO
 import base64
-import json
+import sqlite3
+from datetime import datetime, timedelta
+from io import BytesIO
+from typing import Any, Dict, List, Optional
+
 import aiohttp
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+from fastapi import FastAPI
+from pydantic import BaseModel
 from scipy import signal, stats
 from scipy.signal import find_peaks
-import sqlite3
-import os
 
 app = FastAPI(
     title="HelioBio-API",
@@ -148,8 +146,8 @@ async def fetch_solar_data(start_date: str, end_date: str) -> pd.DataFrame:
     
     flare_index = ssn * 0.1 + np.random.normal(0, 0.5, n)
     geomagnetic_ap = ssn * 0.5 + np.random.normal(0, 2, n)
-    solar_wind_speed = 400 + ssn * 2 + np.random.normal(0, 20, n)
-    cosmic_ray = 100 - ssn * 0.5 + np.random.normal(0, 5, n)
+    400 + ssn * 2 + np.random.normal(0, 20, n)
+    100 - ssn * 0.5 + np.random.normal(0, 5, n)
     
     # Intentar enriquecer con datos reales de NASA DONKI (últimos 30 días)
     try:
@@ -177,7 +175,7 @@ async def fetch_solar_data(start_date: str, end_date: str) -> pd.DataFrame:
                             pass
                     # Ajustar los últimos meses con datos reales si hay solapamiento
                     if flare_dates:
-                        flare_series = pd.Series(flare_dates).resample('D').sum().fillna(0)
+                        pd.Series(flare_dates).resample('D').sum().fillna(0)
                         # Esto solo afecta la visualización; mantenemos el sintético como base
                         print(f"NASA DONKI: {len(flares)} flares obtenidos")
     except Exception as e:
@@ -363,8 +361,8 @@ async def get_current_alerts():
     start_date = (datetime.now() - timedelta(days=365)).strftime("%Y-%m-%d")
     df = await fetch_solar_data(start_date, end_date)
     
-    recent = df['sunspot_number'].tail(30).mean()
-    last_n = min(30, len(df))
+    df['sunspot_number'].tail(30).mean()
+    min(30, len(df))
 trend = np.polyfit(range(last_n), df['sunspot_number'].tail(last_n).values, 1)[0] if last_n >= 2 else 0
 
 if recent > 100 and trend > 0:

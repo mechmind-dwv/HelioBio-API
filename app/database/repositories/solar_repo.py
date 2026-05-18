@@ -1,12 +1,15 @@
 import sqlite3
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 from app.database.connection import get_db_connection
+
 
 class SolarRepository:
     """
     Gestiona las operaciones de la base de datos para los eventos solares.
     Esta capa de repositorio abstrae la lógica SQL de los servicios de negocio.
     """
+
     def __init__(self):
         self.conn = get_db_connection()
 
@@ -27,10 +30,10 @@ class SolarRepository:
     def add_solar_event(self, event_data: Dict[str, Any]) -> int:
         """
         Agrega un nuevo evento solar a la base de datos.
-        
+
         Args:
             event_data (dict): Un diccionario con los datos del evento.
-        
+
         Returns:
             int: El ID del nuevo evento.
         """
@@ -40,14 +43,17 @@ class SolarRepository:
             INSERT INTO solar_events (event_type, start_time, end_time, severity, region, geomagnetic_index)
             VALUES (?, ?, ?, ?, ?, ?)
             """
-            cursor.execute(sql, (
-                event_data.get("event_type"),
-                event_data.get("start_time"),
-                event_data.get("end_time"),
-                event_data.get("severity"),
-                event_data.get("region"),
-                event_data.get("geomagnetic_index")
-            ))
+            cursor.execute(
+                sql,
+                (
+                    event_data.get("event_type"),
+                    event_data.get("start_time"),
+                    event_data.get("end_time"),
+                    event_data.get("severity"),
+                    event_data.get("region"),
+                    event_data.get("geomagnetic_index"),
+                ),
+            )
             self.conn.commit()
             return cursor.lastrowid
         except sqlite3.Error as e:

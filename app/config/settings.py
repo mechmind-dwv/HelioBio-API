@@ -2,20 +2,15 @@
 """
 Configuración central del sistema HelioBio-API
 """
+
 from pydantic_settings import BaseSettings
-from typing import List, Optional
-import os
 
 
 class Settings(BaseSettings):
     """Configuración principal de la aplicación"""
-    
-    model_config = {
-        "extra": "ignore",
-        "env_file": ".env",
-        "env_file_encoding": "utf-8"
-    }
-    
+
+    model_config = {"extra": "ignore", "env_file": ".env", "env_file_encoding": "utf-8"}
+
     # Información del proyecto
     PROJECT_NAME: str = "HelioBio-API"
     PROJECT_VERSION: str = "3.0.0"
@@ -25,26 +20,28 @@ class Settings(BaseSettings):
     AUTHOR_NAME: str = "mechmind-dwv"
     AUTHOR_EMAIL: str = "ia.mechmind@gmail.com"
     GITHUB_REPO: str = "https://github.com/mechmind-dwv/HelioBio-API"
-    
+
     # Configuración del servidor
     HOST: str = "0.0.0.0"
     PORT: int = 8000
     DEBUG: bool = True
     RELOAD: bool = True
-    
+
     # Base de datos
     DATABASE_URL: str = "sqlite:///./data/heliobio_database.db"
 
     # URLs de fuentes de datos oficiales
     SILSO_SUNSPOT_URL: str = "https://www.sidc.be/silso/DATA/SN_m_tot_V2.0.csv"
-    NOAA_SOLAR_URL: str = "https://services.swpc.noaa.gov/json/solar-cycle/observed-solar-cycle-indices.json"
+    NOAA_SOLAR_URL: str = (
+        "https://services.swpc.noaa.gov/json/solar-cycle/observed-solar-cycle-indices.json"
+    )
     NOAA_GEOMAG_URL: str = "https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json"
     NOAA_SPACE_WEATHER_URL: str = "https://services.swpc.noaa.gov/products/summary.json"
-    
+
     # Configuración de cache
     CACHE_DURATION_HOURS: int = 1
     MAX_CACHE_SIZE_MB: int = 100
-    
+
     # Configuración de análisis
     MIN_DATA_POINTS: int = 50
     DEFAULT_FORECAST_MONTHS: int = 24

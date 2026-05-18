@@ -1,8 +1,9 @@
 # app/api/dependencies.py
 
+from typing import Any, Dict
+
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from typing import Dict, Any
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 # ==================== DEPENDENCIAS ====================
 
@@ -13,10 +14,11 @@ API_TOKEN = "HelioBio-API-Secret-Key"
 # Instancia de un esquema de seguridad de portador HTTP.
 bearer_scheme = HTTPBearer()
 
+
 def verify_api_key(credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)) -> str:
     """
     Dependencia de FastAPI para verificar la clave de la API en la cabecera de la solicitud.
-    
+
     Esta función se encarga de:
     1. Obtener el token de autorización de la cabecera 'Authorization'.
     2. Comparar el token con una clave de API predefinida.
@@ -26,19 +28,19 @@ def verify_api_key(credentials: HTTPAuthorizationCredentials = Depends(bearer_sc
     if credentials.scheme.lower() != "bearer":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="El esquema de autenticación debe ser 'Bearer'."
+            detail="El esquema de autenticación debe ser 'Bearer'.",
         )
     if credentials.credentials != API_TOKEN:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Clave de API inválida."
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="Clave de API inválida."
         )
     return credentials.credentials
+
 
 def get_db_session() -> Dict[str, Any]:
     """
     Dependencia de ejemplo para una sesión de base de datos.
-    
+
     En una aplicación real, esta función inicializaría una sesión de base de datos
     (por ejemplo, con SQLAlchemy o un cliente de Firestore) y la cerraría
     al finalizar la solicitud.

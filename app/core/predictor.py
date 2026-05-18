@@ -4,28 +4,30 @@
 Sistema de predicción heliobiológica basado en machine learning
 Implementa múltiples modelos predictivos para actividad solar y eventos biológicos
 """
-import numpy as np
-import pandas as pd
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.linear_model import LinearRegression, Ridge, Lasso
-from sklearn.svm import SVR
-from sklearn.model_selection import TimeSeriesSplit, cross_val_score
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from scipy.optimize import curve_fit
-from scipy import signal
-import warnings
-from typing import Dict, Any, List, Tuple, Optional, Union
-from datetime import datetime, timedelta
-from dataclasses import dataclass
-from enum import Enum
 import logging
 import pickle
+import warnings
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from enum import Enum
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple, Union
 
-from app.models.solar import SolarActivity, SolarForecast, SolarCyclePhase, SolarActivityLevel
-from app.models.biological import BiologicalEvent
+import numpy as np
+import pandas as pd
+from scipy import signal
+from scipy.optimize import curve_fit
+from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
+from sklearn.linear_model import Lasso, LinearRegression, Ridge
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.model_selection import TimeSeriesSplit, cross_val_score
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
+from sklearn.svm import SVR
+
 from app.core.chizhevsky_kb import ChizhevskySolarCycles
+from app.models.biological import BiologicalEvent
+from app.models.solar import (SolarActivity, SolarActivityLevel,
+                              SolarCyclePhase, SolarForecast)
 
 logger = logging.getLogger(__name__)
 warnings.filterwarnings('ignore', category=FutureWarning)
@@ -71,18 +73,20 @@ class SolarPredictionResult:
 Sistema avanzado de obtención de datos de actividad solar
 Integra múltiples fuentes oficiales: SILSO, NOAA, SWPC
 """
-import aiohttp
 import asyncio
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-from typing import Dict, Any, List, Optional, Tuple
-import logging
-from pathlib import Path
-import json
 import hashlib
+import json
+import logging
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
+
+import aiohttp
+import numpy as np
+import pandas as pd
+
 from app.config.settings import settings
-from app.models.solar import SolarActivity, SolarCyclePhase, SolarActivityLevel
+from app.models.solar import SolarActivity, SolarActivityLevel, SolarCyclePhase
 
 logger = logging.getLogger(__name__)
 
@@ -511,25 +515,26 @@ def calculate_solar_statistics(activities: List[SolarActivity]) -> Dict[str, Any
 Motor de análisis estadístico avanzado para correlaciones heliobiológicas
 Implementa métodos estadísticos robustos y algoritmos de machine learning
 """
+import logging
+import warnings
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from enum import Enum
+from typing import Any, Dict, List, Optional, Tuple, Union
+
 import numpy as np
 import pandas as pd
 from scipy import stats
 from scipy.signal import find_peaks, periodogram
-from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.metrics import mean_squared_error, r2_score
-import warnings
-from typing import Dict, Any, List, Tuple, Optional, Union
-from datetime import datetime, timedelta
-import logging
-from dataclasses import dataclass
-from enum import Enum
+from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import StandardScaler
 
-from app.models.solar import SolarActivity
-from app.models.biological import BiologicalEvent
 from app.core.chizhevsky_kb import get_chizhevsky_knowledge_base
+from app.models.biological import BiologicalEvent
+from app.models.solar import SolarActivity
 
 logger = logging.getLogger(__name__)
 warnings.filterwarnings('ignore', category=RuntimeWarning)

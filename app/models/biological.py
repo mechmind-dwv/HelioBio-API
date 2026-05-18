@@ -2,10 +2,13 @@
 """
 Modelos para eventos biológicos y epidemiológicos
 """
-from pydantic import BaseModel, Field, validator
+
 from datetime import datetime
-from typing import Optional, List
 from enum import Enum
+from typing import List, Optional
+
+from pydantic import BaseModel, Field, validator
+
 
 class PathogenType(str, Enum):
     VIRUS = "virus"
@@ -14,6 +17,7 @@ class PathogenType(str, Enum):
     FUNGUS = "fungus"
     PRION = "prion"
     UNKNOWN = "unknown"
+
 
 class TransmissionMode(str, Enum):
     RESPIRATORY = "respiratory"
@@ -25,14 +29,17 @@ class TransmissionMode(str, Enum):
     BLOODBORNE = "bloodborne"
     UNKNOWN = "unknown"
 
+
 class EventSeverity(str, Enum):
     LOW = "low"
     MODERATE = "moderate"
     HIGH = "high"
     CRITICAL = "critical"
 
+
 class BiologicalEvent(BaseModel):
     """Modelo para eventos biológicos/epidemiológicos"""
+
     id: Optional[int] = None
     name: str = Field(min_length=1, max_length=200)
     start_date: datetime
@@ -49,24 +56,26 @@ class BiologicalEvent(BaseModel):
     notes: str = ""
     data_source: str = "manual"
     created_at: Optional[datetime] = None
-    
-    @validator('end_date')
+
+    @validator("end_date")
     def validate_end_date(cls, v, values):
-        if v and 'start_date' in values and v < values['start_date']:
-            raise ValueError('End date must be after start date')
+        if v and "start_date" in values and v < values["start_date"]:
+            raise ValueError("End date must be after start date")
         return v
-    
-    @validator('peak_date')
+
+    @validator("peak_date")
     def validate_peak_date(cls, v, values):
-        if v and 'start_date' in values:
-            if v < values['start_date']:
-                raise ValueError('Peak date must be after start date')
-            if 'end_date' in values and values['end_date'] and v > values['end_date']:
-                raise ValueError('Peak date must be before end date')
+        if v and "start_date" in values:
+            if v < values["start_date"]:
+                raise ValueError("Peak date must be after start date")
+            if "end_date" in values and values["end_date"] and v > values["end_date"]:
+                raise ValueError("Peak date must be before end date")
         return v
+
 
 class BiologicalParameter(BaseModel):
     """Parámetros biológicos monitoreados"""
+
     parameter_name: str
     value: float
     unit: str
@@ -74,9 +83,11 @@ class BiologicalParameter(BaseModel):
     solar_dependence_coefficient: Optional[float] = Field(None, ge=-1, le=1)
     confidence_level: float = Field(ge=0, le=1)
     data_source: str
-    
+
+
 class HealthMetric(BaseModel):
     """Métricas de salud para correlación"""
+
     metric_type: str  # "cardiovascular", "neurological", "immune", etc.
     region: str
     date: datetime

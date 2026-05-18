@@ -1,16 +1,18 @@
 # config/settings.py
 
-from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import PostgresDsn
 from functools import lru_cache
+
+from pydantic import PostgresDsn
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     """
     Clase de configuración de la aplicación que carga las variables de entorno.
     """
+
     model_config = SettingsConfigDict(
-        env_file='.env',
-        extra='ignore' # Ignora claves no declaradas en el modelo
+        env_file=".env", extra="ignore"  # Ignora claves no declaradas en el modelo
     )
 
     PROJECT_NAME: str = "HelioBio-API"
@@ -34,6 +36,7 @@ class Settings(BaseSettings):
     NOAA_SOLAR_URL: str
     NOAA_GEOMAG_URL: str
 
+
 @lru_cache()
 def get_settings():
     """
@@ -41,5 +44,6 @@ def get_settings():
     Esto previene la sobrecarga de leer el archivo .env repetidamente.
     """
     return Settings()
+
 
 settings = get_settings()

@@ -1,4 +1,5 @@
 """Dashboard HTML para HelioBio-API"""
+
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
 
@@ -104,6 +105,7 @@ DASHBOARD_HTML = """
 </body>
 </html>
 """
+
 
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard():

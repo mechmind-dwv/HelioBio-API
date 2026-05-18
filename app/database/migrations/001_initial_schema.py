@@ -1,7 +1,7 @@
 # app/database/migrations/001_initial_schema.py
 
-import sqlite3 # Usamos SQLite3 como ejemplo de una base de datos simple
-from typing import Callable, Any
+import sqlite3  # Usamos SQLite3 como ejemplo de una base de datos simple
+
 
 # Funciones de utilidad para simular el proceso de migración
 def execute_sql(conn: sqlite3.Connection, sql_script: str):
@@ -14,6 +14,7 @@ def execute_sql(conn: sqlite3.Connection, sql_script: str):
     except sqlite3.Error as e:
         print(f"Error al ejecutar el script SQL: {e}")
         conn.rollback()
+
 
 def up(conn: sqlite3.Connection):
     """
@@ -63,7 +64,7 @@ def down(conn: sqlite3.Connection):
 
     drop_solar_table_sql = "DROP TABLE IF EXISTS solar_events;"
     drop_biological_table_sql = "DROP TABLE IF EXISTS biological_data;"
-    
+
     execute_sql(conn, drop_solar_table_sql)
     execute_sql(conn, drop_biological_table_sql)
 
