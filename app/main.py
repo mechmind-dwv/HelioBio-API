@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from app.transformer_predictor import MultiParamPredictor, IoTSimulator
+from app.health_check import get_health_status
 from app.websocket_handler import stream_solar_data, manager
 from app.sentiment_analyzer import get_public_sentiment, analyze_sentiment
 from app.auth import USERS_DB

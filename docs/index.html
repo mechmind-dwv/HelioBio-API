@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>☀️ HelioBio-API | Análisis Heliobiológico Avanzado</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-hero { background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 50%, #002848 100%); }
+        .glow { text-shadow: 0 0 30px rgba(255,215,0,0.5); }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .pulse { animation: pulse 3s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
+        .solar-orbit { animation: orbit 20s linear infinite; }
+        @keyframes orbit { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+    </style>
+</head>
+<body class="bg-[#0a1628] text-gray-200">
+    
+    <!-- HERO -->
+    <header class="gradient-hero min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="solar-orbit absolute top-1/2 left-1/2 w-96 h-96 -ml-48 -mt-48 border border-yellow-500/30 rounded-full"></div>
+            <div class="absolute top-1/2 left-1/2 w-64 h-64 -ml-32 -mt-32 border border-yellow-500/20 rounded-full"></div>
+        </div>
+        <div class="text-center z-10 px-4">
+            <div class="text-8xl mb-6">☀️</div>
+            <h1 class="text-5xl md:text-7xl font-black text-yellow-400 glow mb-4">HelioBio-API</h1>
+            <p class="text-xl md:text-2xl text-blue-300 mb-6">Sistema Avanzado de Análisis Heliobiológico</p>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-8 text-lg">
+                Basado en los estudios pioneros de <strong>Alexander Leonidovich Chizhevsky</strong> (1897-1964).
+                Correlacionando actividad solar con eventos biológicos y epidemiológicos.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="/docs" class="bg-yellow-500 text-black px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-400 transition">📖 API Docs</a>
+                <a href="/dashboard" class="bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-500 transition">📊 Dashboard</a>
+                <a href="https://github.com/mechmind-dwv/HelioBio-API" class="bg-gray-700 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-600 transition">🐙 GitHub</a>
+            </div>
+            <div class="mt-8 flex justify-center gap-4">
+                <img src="https://img.shields.io/badge/Python-3.10+-blue" alt="Python">
+                <img src="https://img.shields.io/badge/FastAPI-0.136+-green" alt="FastAPI">
+                <img src="https://img.shields.io/badge/Tests-27%2F27-success" alt="Tests">
+                <img src="https://img.shields.io/badge/Version-4.0.0-purple" alt="Version">
+            </div>
+        </div>
+    </header>
+
+    <!-- STATS -->
+    <section class="py-16 bg-[#0d1f3c]">
+        <div class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="p-6"><div class="text-4xl font-black text-yellow-400">28</div><div class="text-gray-400">Endpoints</div></div>
+            <div class="p-6"><div class="text-4xl font-black text-green-400">27</div><div class="text-gray-400">Tests</div></div>
+            <div class="p-6"><div class="text-4xl font-black text-blue-400">6</div><div class="text-gray-400">Fuentes de Datos</div></div>
+            <div class="p-6"><div class="text-4xl font-black text-purple-400">1897</div><div class="text-gray-400">Año Chizhevsky</div></div>
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="py-16 max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-yellow-400 mb-12">🚀 Tecnología de Vanguardia</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-[#112240] p-8 rounded-2xl card-hover transition">
+                <div class="text-4xl mb-4">🧠</div>
+                <h3 class="text-xl font-bold text-blue-300 mb-3">Deep Learning</h3>
+                <p class="text-gray-400">Modelos LSTM y Transformers para predicción solar avanzada con datos reales del SILSO.</p>
+            </div>
+            <div class="bg-[#112240] p-8 rounded-2xl card-hover transition">
+                <div class="text-4xl mb-4">🔐</div>
+                <h3 class="text-xl font-bold text-blue-300 mb-3">Auth JWT</h3>
+                <p class="text-gray-400">Autenticación segura con tokens JWT. Roles de admin, researcher y público.</p>
+            </div>
+            <div class="bg-[#112240] p-8 rounded-2xl card-hover transition">
+                <div class="text-4xl mb-4">📊</div>
+                <h3 class="text-xl font-bold text-blue-300 mb-3">GraphQL API</h3>
+                <p class="text-gray-400">Consultas flexibles con GraphQL. Obtén exactamente los datos que necesitas.</p>
+            </div>
+            <div class="bg-[#112240] p-8 rounded-2xl card-hover transition">
+                <div class="text-4xl mb-4">🌐</div>
+                <h3 class="text-xl font-bold text-blue-300 mb-3">Datos Reales</h3>
+                <p class="text-gray-400">SILSO, NOAA, NASA DONKI, OMS, CDC. 6 fuentes oficiales integradas.</p>
+            </div>
+            <div class="bg-[#112240] p-8 rounded-2xl card-hover transition">
+                <div class="text-4xl mb-4">📄</div>
+                <h3 class="text-xl font-bold text-blue-300 mb-3">Reportes PDF</h3>
+                <p class="text-gray-400">Genera informes profesionales de actividad solar y correlaciones en PDF.</p>
+            </div>
+            <div class="bg-[#112240] p-8 rounded-2xl card-hover transition">
+                <div class="text-4xl mb-4">🔔</div>
+                <h3 class="text-xl font-bold text-blue-300 mb-3">Webhooks + Email</h3>
+                <p class="text-gray-400">Sistema de alertas con webhooks y notificaciones por correo electrónico.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ENDPOINTS -->
+    <section class="py-16 bg-[#0d1f3c]">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-yellow-400 mb-12">📡 Endpoints Principales</h2>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div class="bg-[#112240] p-4 rounded-lg"><span class="text-green-400 font-mono">GET</span> <span class="text-gray-300">/solar/activity</span><span class="text-gray-500 ml-2">— SILSO real</span></div>
+                <div class="bg-[#112240] p-4 rounded-lg"><span class="text-green-400 font-mono">GET</span> <span class="text-gray-300">/analysis/correlate</span><span class="text-gray-500 ml-2">— Pearson + gráfico</span></div>
+                <div class="bg-[#112240] p-4 rounded-lg"><span class="text-green-400 font-mono">GET</span> <span class="text-gray-300">/who/pandemics</span><span class="text-gray-500 ml-2">— Datos OMS</span></div>
+                <div class="bg-[#112240] p-4 rounded-lg"><span class="text-green-400 font-mono">GET</span> <span class="text-gray-300">/cdc/influenza</span><span class="text-gray-500 ml-2">— Vigilancia CDC</span></div>
+                <div class="bg-[#112240] p-4 rounded-lg"><span class="text-green-400 font-mono">GET</span> <span class="text-gray-300">/predict/deep-learning</span><span class="text-gray-500 ml-2">— LSTM</span></div>
+                <div class="bg-[#112240] p-4 rounded-lg"><span class="text-purple-400 font-mono">POST</span> <span class="text-gray-300">/graphql</span><span class="text-gray-500 ml-2">— GraphQL</span></div>
+                <div class="bg-[#112240] p-4 rounded-lg"><span class="text-purple-400 font-mono">POST</span> <span class="text-gray-300">/auth/login</span><span class="text-gray-500 ml-2">— JWT</span></div>
+                <div class="bg-[#112240] p-4 rounded-lg"><span class="text-green-400 font-mono">GET</span> <span class="text-gray-300">/sentiment/public</span><span class="text-gray-500 ml-2">— Análisis</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INSTALL -->
+    <section class="py-16 max-w-4xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-yellow-400 mb-8">⚡ Instalación en 30 segundos</h2>
+        <div class="bg-[#112240] p-6 rounded-xl font-mono text-sm text-gray-300 overflow-x-auto">
+            <pre>git clone https://github.com/mechmind-dwv/HelioBio-API.git
+cd HelioBio-API && python -m venv venv && source venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --host 0.0.0.0 --port 8000</pre>
+        </div>
+        <p class="text-center mt-4 text-gray-500">Luego abre <code class="text-yellow-400">http://localhost:8000/docs</code></p>
+    </section>
+
+    <!-- QUOTE -->
+    <section class="py-16 bg-[#0d1f3c]">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <div class="text-6xl text-yellow-400 mb-6">🌌</div>
+            <blockquote class="text-2xl italic text-gray-300 mb-4">
+                "Toda la vida orgánica de la Tierra existe en el océano de energía radiante del Sol"
+            </blockquote>
+            <cite class="text-gray-500">— Alexander Leonidovich Chizhevsky (1897-1964)</cite>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center text-gray-600">
+        <p>© 2024-2026 mechmind-dwv | MIT License | <a href="mailto:ia.mechmind@gmail.com" class="text-blue-400">ia.mechmind@gmail.com</a></p>
+    </footer>
+</body>
+</html>
