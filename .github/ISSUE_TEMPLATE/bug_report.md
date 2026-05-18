@@ -1,38 +1,26 @@
 ---
 name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
-assignees: ''
-
+about: Reporta un error
+title: '[BUG] '
+labels: bug
+assignees: mechmind-dwv
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
+**Descripción**
+Descripción clara del error.
 
-**To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**Pasos para reproducir**
+1. Ir a '...'
+2. Hacer clic en '...'
+3. Ver error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Comportamiento esperado**
+Lo que debería ocurrir.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Capturas de pantalla**
+Si aplica.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+**Entorno**
+- OS: [ej. Termux, Ubuntu]
+- Python: [ej. 3.13]
+- Versión API: [ej. 3.0.0]
