@@ -61,18 +61,22 @@ def generate_solar_report(solar_data: list, include_chart: bool = True) -> bytes
     
     if len(df) > 0:
         data_rows = [["Fecha", "SSN", "Clasificación"]]
-        for _, row in df.tail(10).iterrows():
-            date_str = str(row['date'])
-            if hasattr(row['date'], 'strftime'):
-                date_str = row['date'].strftime('%Y-%m-%d')
-            else:
-                date_str = str(row['date'])[:10]
+        for i in range(max(0, len(df)-10), len(df)):
+            row = df.iloc[i]
+            try:
+                date_val = row['date']
+                if hasattr(date_val, 'strftime'):
+                    date_str = date_val.strftime('%Y-%m-%d')
+                else:
+                    date_str = str(date_val)[:10]
+                ssn_str = f"{float(row['sunspot_number']):.1f}"
+                cls_str = str(row['classification']).upper()
+            except Exception as e:
+                date_str = 'N/A'
+                ssn_str = 'N/A'
+                cls_str = 'N/A'
             
-            data_rows.append([
-                date_str,
-                f"{float(row['sunspot_number']):.1f}",
-                str(row['classification']).upper()
-            ])
+            data_rows.append([date_str, ssn_str, cls_str])
         
         table = Table(data_rows, colWidths=[4*cm, 3*cm, 4*cm])
         table.setStyle(TableStyle([

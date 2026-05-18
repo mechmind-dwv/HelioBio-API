@@ -172,7 +172,7 @@ DASHBOARD_HTML = """
     async function fetchData() {
         try {
             // Datos solares recientes (último año)
-            const solarRes = await fetch(`${API}/solar/activity?start_date=2024-01-01&end_date=2024-12-31`);
+            const solarRes = await fetch(`${API}/solar/activity?start_date=2023-01-01&end_date=2024-12-31`);
             const solarData = await solarRes.json();
             
             // Correlación
