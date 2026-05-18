@@ -1,7 +1,7 @@
 """Datos históricos de ciclos solares verificados"""
 import pandas as pd
+import math
 
-# Datos oficiales de ciclos solares (SILSO/NOAA)
 SOLAR_CYCLES_DATA = [
     {"cycle": 1, "start": 1755, "end": 1766, "duration": 11.3, "max_ssn": 86.5, "min_ssn": 5.2},
     {"cycle": 2, "start": 1766, "end": 1775, "duration": 9.0, "max_ssn": 115.8, "min_ssn": 3.1},
@@ -27,8 +27,11 @@ SOLAR_CYCLES_DATA = [
     {"cycle": 22, "start": 1986, "end": 1996, "duration": 10.0, "max_ssn": 158.5, "min_ssn": 8.0},
     {"cycle": 23, "start": 1996, "end": 2008, "duration": 12.2, "max_ssn": 120.8, "min_ssn": 1.7},
     {"cycle": 24, "start": 2008, "end": 2019, "duration": 11.0, "max_ssn": 81.8, "min_ssn": 2.2},
-    {"cycle": 25, "start": 2019, "end": None, "duration": None, "max_ssn": 125.0, "min_ssn": None},
+    {"cycle": 25, "start": 2019, "end": 0, "duration": 0.0, "max_ssn": 125.0, "min_ssn": 0.0},
 ]
 
-def get_solar_cycles_data() -> pd.DataFrame:
-    return pd.DataFrame(SOLAR_CYCLES_DATA)
+def get_solar_cycles_data():
+    df = pd.DataFrame(SOLAR_CYCLES_DATA)
+    # Reemplazar NaN/None con 0 para JSON
+    df = df.fillna(0).replace([float('inf'), float('-inf')], 0)
+    return df

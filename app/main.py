@@ -24,6 +24,8 @@ from pydantic import BaseModel
 from scipy import signal, stats
 from scipy.signal import find_peaks
 
+from app.space_weather import fetch_real_space_weather
+from app.solar_cycles import get_solar_cycles_data
 from app.dashboard import router as dashboard_router
 
 app = FastAPI(
