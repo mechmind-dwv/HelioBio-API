@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from app.webhooks import register_webhook, list_webhooks, delete_webhook, trigger_webhooks
 from app.email_notifier import send_alert_notification
 from app.report_generator import generate_solar_report, generate_correlation_report
 from fastapi.responses import Response
@@ -532,3 +533,27 @@ async def test_notification(email: str = "ia.mechmind@gmail.com"):
     }
     success = await send_alert_notification(test_alert, [email])
     return {"status": "sent" if success else "failed", "email": email}
+
+@app.post("/webhooks/register")
+async def webhook_register(url: str, events: str = "alert,solar_update"):
+    """Registra un nuevo webhook para recibir notificaciones"""
+    event_list = [e.strip() for e in events.split(",")]
+    return await register_webhook(url, event_list)
+
+@app.get("/webhooks")
+async def webhook_list():
+    """Lista todos los webhooks registrados"""
+    return await list_webhooks()
+
+@app.delete("/webhooks/{webhook_id}")
+async def webhook_delete(webhook_id: int):
+    """Elimina un webhook"""
+    success = await delete_webhook(webhook_id)
+    return {"status": "deleted" if success else "not found"}
+
+@app.post("/webhooks/test")
+async def webhook_test(event: str = "alert"):
+    """Prueba el sistema de webhooks"""
+    test_payload = {"message": "Prueba de webhook HelioBio-API", "source": "test"}
+    count = await trigger_webhooks(event, test_payload)
+    return {"event": event, "webhooks_triggered": count}
